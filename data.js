@@ -145,8 +145,9 @@ const RAIDS = [
             items: [
               "L'Icebolt est un vrai <strong>stun de 4 s</strong>, et il cible n'importe qui — soigneurs compris.",
               "<strong>Médaillon JcJ</strong> : la réponse principale. C'est le seul des trois à porter le drapeau « utilisable en étant étourdi », donc le seul qu'on peut déclencher <em>pendant</em> le stun. Paladins : Bouclier divin. Mages : Transfert.",
-              "<strong>Free Action Potion</strong> : immunise aux stuns pendant <strong>30 s</strong>, recharge 2 min. <span class=\"warn\">Préventive uniquement</span> — son propre texte précise qu'elle ne retire pas un effet déjà en place. À boire <em>avant</em>. Même recharge que le médaillon, donc elle couvre une seconde fenêtre.",
-              "<span class=\"warn\">La Living Action Potion ne sert à rien ici.</span> Elle retire bien les stuns, mais son sort n'a pas le drapeau « utilisable en étant étourdi » : impossible de la boire une fois figé. En préventif elle n'offre que 5 s d'immunité pour 2 min de recharge.",
+              "<strong>Free Action Potion</strong> : immunise aux stuns pendant <strong>30 s</strong>. <span class=\"warn\">Préventive uniquement</span> — son propre texte précise qu'elle ne retire pas un effet déjà en place, il faut donc la boire <em>avant</em>. Elle occupe un cooldown distinct de celui du médaillon, ce qui vous donne une seconde fenêtre de couverture.",
+              "<span class=\"warn\">Son coût :</span> en TBC toutes les potions partagent une recharge de 2 min. Une Free Action, c'est pas de potion de soin ni de mana pendant ce temps-là. À arbitrer selon votre rôle.",
+              "<strong>Living Action Potion</strong> : à éviter ici. Dans les données TBC, son sort <em>n'a pas</em> le drapeau « utilisable en étant étourdi » que porte le médaillon — elle ne devrait donc pas pouvoir servir de parade réactive, même si des retours de joueurs sur des extensions ultérieures affirment le contraire. Et en préventif elle ne couvre que <strong>5 s</strong> pour la même recharge de 2 min. Le médaillon fait le travail, gardez-le.",
               "<span class=\"warn\">Rappel :</span> rééquipez votre bijou habituel après le combat.",
             ],
           },
