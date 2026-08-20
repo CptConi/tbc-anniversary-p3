@@ -194,9 +194,10 @@ const RAIDS = [
           {
             title: 'Se réveiller du Sleep',
             items: [
-              "Le Sleep ne se dissipe pas, mais il <strong>casse aux dégâts</strong>. N'importe quelle source suffit, y compris la vôtre.",
-              "<strong>Sulfuron Slammer</strong> : boisson enflammée qui vous brûle en la buvant. Vendue par <strong>Plugger Spazzring</strong>, le tavernier du Grim Guzzler, dans les Profondeurs de Rochenoire. Empilable par 10, à prévoir avant la soirée.",
-              "Une <strong>Dark Rune</strong> ou une <strong>Demonic Rune</strong> fait le même effet : elle coûte 600 à 1 000 points de vie, donc elle vous réveille aussi.",
+              "Le Sleep ne se dissipe pas, mais il <strong>casse aux dégâts</strong>. <span class=\"warn\">Endormi, vous ne pouvez rien consommer</span> : aucune parade réactive n'existe, tout se joue avant.",
+              "<strong>Sulfuron Slammer</strong> : la boisson vous pose un DoT de <strong>4 dégâts de Feu toutes les 3 s pendant 6 s</strong>. S'il tourne quand le Sleep tombe, le tick suivant vous réveille en 3 s au lieu de 10.",
+              "Il faut donc la <strong>reboire régulièrement pendant le combat</strong> pour garder le DoT actif, et non la garder en réserve. Vendue par <strong>Plugger Spazzring</strong>, tavernier du Grim Guzzler dans les Profondeurs de Rochenoire, empilable par 10 — à faire avant la soirée.",
+              "Autre option, qui ne dépend pas du dormeur : l'off-tank amène un <strong>Towering Infernal</strong> près des joueurs endormis, ses dégâts de feu de zone les réveillent. Efficace mais risqué, à annoncer.",
             ],
           },
           {
