@@ -150,6 +150,11 @@
     return wrap;
   }
 
+  // Which raid panel a section belongs to — needed before it is in the DOM.
+  var SECTION_RAID = {};
+
+  function raidOf(id) { return SECTION_RAID[id] || null; }
+
   function renderSection(section) {
     var d = el('details', { class: 'boss', id: section.id });
 
@@ -182,6 +187,10 @@
     if (vid) body.appendChild(vid);
     var blocks = el('div', { class: 'boss-blocks', 'data-hl': '' });
     section.blocks.forEach(function (b) { blocks.appendChild(renderBlock(b)); });
+    if (section.kind === 'boss') {
+      var self = whLookup(section.name, raidOf(section.id));
+      if (self) heads.querySelector('.boss-name').appendChild(whLink(self));
+    }
     body.appendChild(blocks);
     d.appendChild(body);
 
@@ -189,6 +198,7 @@
   }
 
   function renderRaid(raid) {
+    raid.sections.forEach(function (s) { SECTION_RAID[s.id] = raid.id; });
     var panel = document.getElementById('panel-' + raid.id);
     var head = el('div', { class: 'panel-head' });
     head.appendChild(el('h2', { class: 'panel-title' }, raid.name));
@@ -212,6 +222,7 @@
     panel.appendChild(jump);
 
     raid.sections.forEach(function (s) { panel.appendChild(renderSection(s)); });
+    decorateWowhead(panel, raid.id);
   }
 
   function renderIntro() {
@@ -222,6 +233,7 @@
       card.appendChild(renderItems(b.items));
       host.appendChild(card);
     });
+    decorateWowhead(host, null);
 
     var list = document.getElementById('checklist-items');
     PREP_CHECKLIST.forEach(function (item) {
@@ -387,6 +399,8 @@
         if (searching && hit) {
           highlight($('.boss-heads', d), q);
           highlight($('.boss-blocks', d), q);
+          decorateWowhead($('.boss-heads', d), rid);
+          decorateWowhead($('.boss-blocks', d), rid);
           // highlight() rebuilt the block subtree, so re-apply visibility
           applyRoleVisibility(d);
           suppressSave = true;
@@ -407,7 +421,10 @@
       var hit = !searching || fold(card.textContent).indexOf(q) !== -1;
       card.hidden = !hit;
       if (hit) counts.intro++;
-      if (searching && hit && card.hasAttribute('data-hl')) highlight(card, q);
+      if (searching && hit && card.hasAttribute('data-hl')) {
+        highlight(card, q);
+        decorateWowhead(card, null);
+      }
     });
 
     if (!searching) restoreOpenState();
@@ -671,6 +688,70 @@
     var s = Math.floor(diff / 1000) % 60;
     var pad = function (n) { return (n < 10 ? '0' : '') + n; };
     node.innerHTML = 'Phase 3 dans <b>J-' + d + '</b> ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+
+  /* ---------- Wowhead decoration ---------- */
+
+  // 'icon' shows the entity's own Wowhead icon, falling back to a round (i)
+  // for entities that have none (Wowhead ships no icon for NPCs).
+  // 'info' forces the (i) everywhere.
+  var WH_STYLE = 'icon';
+  var WH_ICON_BASE = 'https://wow.zamimg.com/images/wow/icons/medium/';
+
+  function whLookup(label, raid) {
+    var scoped = (typeof WOWHEAD_SCOPED !== 'undefined' && WOWHEAD_SCOPED[raid]) || null;
+    if (scoped && scoped[label]) return scoped[label];
+    if (typeof WOWHEAD !== 'undefined' && WOWHEAD[label]) return WOWHEAD[label];
+    return null;
+  }
+
+  // "Death & Decay :" / "Tanks (3 requis)" -> "Death & Decay" / "Tanks"
+  function whKey(text) {
+    return text.replace(/\s*\(.*?\)\s*$/, '').replace(/\s*:\s*$/, '').trim();
+  }
+
+  function whUrl(entry) {
+    return entry.kind === 'search'
+      ? 'https://www.wowhead.com/tbc/search?q=' + encodeURIComponent(entry.q)
+      : 'https://www.wowhead.com/tbc/' + entry.kind + '=' + entry.id;
+  }
+
+  var WH_KIND_LABEL = { spell: 'sort', npc: 'PNJ', item: 'objet', search: 'recherche' };
+
+  function whLink(entry) {
+    var a = el('a', {
+      class: 'wh',
+      href: whUrl(entry),
+      target: '_blank',
+      rel: 'noopener',
+      'data-wh-kind': entry.kind,
+      title: entry.name + ' \u2014 Wowhead TBC (' + (WH_KIND_LABEL[entry.kind] || entry.kind) + ')',
+      'aria-label': 'Voir ' + entry.name + ' sur Wowhead TBC',
+    });
+    if (WH_STYLE === 'icon' && entry.icon) {
+      a.classList.add('wh-img');
+      a.appendChild(el('img', {
+        src: WH_ICON_BASE + entry.icon + '.jpg',
+        alt: '', loading: 'lazy', decoding: 'async', width: '18', height: '18',
+      }));
+    } else {
+      a.textContent = 'i';
+    }
+    return a;
+  }
+
+  // Appends one Wowhead link after every <strong> naming a known entity.
+  // Runs on already-rendered DOM, so data.js stays free of link markup.
+  function decorateWowhead(root, raid) {
+    if (typeof WOWHEAD === 'undefined') return;
+    $$('strong', root).forEach(function (node) {
+      if (node.querySelector('.wh')) return;
+      if (node.nextElementSibling && node.nextElementSibling.classList &&
+          node.nextElementSibling.classList.contains('wh')) return;
+      var entry = whLookup(whKey(node.textContent), raid);
+      if (!entry) return;
+      node.parentNode.insertBefore(whLink(entry), node.nextSibling);
+    });
   }
 
   /* ---------- sticky header height -> --stick (drives scroll-margin) ---------- */

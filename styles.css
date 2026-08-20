@@ -381,6 +381,34 @@ main { padding-block: 40px 80px; }
 
 .warn { color: var(--warn); font-weight: 700; }
 
+/* Wowhead entity links, sitting on the text's midline.
+   .wh is the fallback badge — a round (i) — used for entities Wowhead has no
+   icon for (NPCs). .wh-img carries the entity's real game icon. */
+.wh {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 15px; height: 15px; margin-left: 5px;
+  border-radius: 50%; flex: none;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px; font-weight: 700; font-style: italic;
+  line-height: 1; text-decoration: none; letter-spacing: 0;
+  color: var(--text-faint);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  /* `middle` puts the badge's centre on the text's x-height midline, which is
+     the optical centre of the surrounding line — no magic offset needed. */
+  vertical-align: middle;
+  transition: color .13s, border-color .13s, background .13s;
+}
+.wh:hover, .wh:focus-visible {
+  color: var(--bg); background: var(--accent); border-color: var(--accent);
+}
+.boss-name .wh { width: 16px; height: 16px; font-size: 11px; }
+
+/* Entities with a Wowhead icon keep it: a rounded square, not the (i) badge. */
+.wh.wh-img { width: 19px; height: 19px; border-radius: 4px; }
+.wh.wh-img img { width: 17px; height: 17px; border-radius: 3px; display: block; }
+.wh.wh-img:hover { background: var(--surface-2); border-color: var(--accent); }
+@media print { .wh { display: none; } }
 mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; padding: 0 2px; }
 
 /* ===========================================================
