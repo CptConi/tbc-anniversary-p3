@@ -51,9 +51,11 @@ Works identically on Netlify, Cloudflare Pages, or GitHub Pages.
   headings; that font is only fetched for those two themes. The choice persists and is
   applied before first paint, so there is no flash. Change `DEFAULT_THEME` in `app.js`
   (and the matching literal in the inline `<head>` script) to move the default.
-- **Wowhead links** — every bolded spell, NPC, and item gets a small round (i) linking to
-  its Wowhead TBC page. Set `WH_STYLE = 'icon'` in `app.js` to render the entity's own game
-  icon instead. See *Wowhead registry* below.
+- **Wowhead links and tooltips** — every bolded spell, NPC, and item gets a small icon
+  linking to its Wowhead TBC page, and hovering it shows the real Wowhead tooltip in French
+  (Wowhead's own Power Tooltips script). Entities Wowhead has no icon for (NPCs) fall back
+  to a round (i); `WH_STYLE = 'info'` in `app.js` forces that badge everywhere, and
+  `WH_LOCALE = ''` switches links and tooltips back to English. See *Wowhead registry* below.
 - **Three tabs** — Préparation / Mont Hyjal / Temple Noir. Active tab persists.
 - **Collapsible boss sections**, open/closed state persisted in `localStorage`.
 - **Deep links** — every section has an `id`. `#/illidan-stormrage` style anchors switch
@@ -86,6 +88,12 @@ Two tables:
   by spell-ID window (Hyjal encounter spells sit around 30000–33500, Black Temple around
   38500–43500), which is what separates e.g. Supremus' Hateful Strike (41926) from
   Patchwerk's (28308).
+
+Tooltips come from `https://wow.zamimg.com/js/tooltips.js` with every link rewrite
+(`colorLinks`, `iconizeLinks`, `renameLinks`) turned off — the icon and label stay ours.
+The script scans the document once on load, so `decorateWowhead` calls `$WowheadPower
+.refreshLinks()` (debounced) after every render and every search rebuild. If the script
+is blocked the links still work as plain links.
 
 Both tables were generated from Wowhead's own TBC-scoped search API, not typed by hand.
 Entities that could not be resolved unambiguously were left out on purpose — no icon is
