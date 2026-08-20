@@ -787,8 +787,9 @@
       // Explicit target for the tooltip script, rather than letting it parse
       // the href. 'fr.tbc' is Wowhead's domain key for French TBC Classic.
       'data-wowhead': entry.kind === 'search' ? null : entry.kind + '=' + entry.id + '&domain=' + WH_DOMAIN,
-      title: entry.name + ' \u2014 Wowhead TBC (' + (WH_KIND_LABEL[entry.kind] || entry.kind) + ')',
-      'aria-label': 'Voir ' + entry.name + ' sur Wowhead TBC',
+      // No `title`: it would race the Wowhead tooltip with a native one.
+      // aria-label still names the target for screen readers.
+      'aria-label': entry.name + ' \u2014 Wowhead TBC (' + (WH_KIND_LABEL[entry.kind] || entry.kind) + ')',
     });
     if (WH_STYLE === 'icon' && entry.icon) {
       a.classList.add('wh-img');
