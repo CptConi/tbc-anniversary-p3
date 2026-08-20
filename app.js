@@ -740,6 +740,7 @@
   var WH_STYLE = 'icon';
   var WH_ICON_BASE = 'https://wow.zamimg.com/images/wow/icons/medium/';
 
+
   function whLookup(label, raid) {
     var scoped = (typeof WOWHEAD_SCOPED !== 'undefined' && WOWHEAD_SCOPED[raid]) || null;
     if (scoped && scoped[label]) return scoped[label];
@@ -760,6 +761,17 @@
 
   var WH_KIND_LABEL = { spell: 'sort', npc: 'PNJ', item: 'objet', search: 'recherche' };
 
+  // Wowhead's tooltip script scans the document once on load. Links added later
+  // (first render, and every search rebuild) need an explicit rescan.
+  var whRefreshTimer;
+  function whRefreshTooltips() {
+    clearTimeout(whRefreshTimer);
+    whRefreshTimer = setTimeout(function () {
+      var power = window.$WowheadPower;
+      if (power && typeof power.refreshLinks === 'function') power.refreshLinks();
+    }, 80);
+  }
+
   function whLink(entry) {
     var a = el('a', {
       class: 'wh',
@@ -767,6 +779,9 @@
       target: '_blank',
       rel: 'noopener',
       'data-wh-kind': entry.kind,
+      // Explicit target for the tooltip script, rather than letting it parse
+      // the href. 'tbc' is Wowhead's domain key for TBC Classic.
+      'data-wowhead': entry.kind === 'search' ? null : entry.kind + '=' + entry.id + '&domain=tbc',
       title: entry.name + ' \u2014 Wowhead TBC (' + (WH_KIND_LABEL[entry.kind] || entry.kind) + ')',
       'aria-label': 'Voir ' + entry.name + ' sur Wowhead TBC',
     });
@@ -794,6 +809,7 @@
       if (!entry) return;
       node.parentNode.insertBefore(whLink(entry), node.nextSibling);
     });
+    whRefreshTooltips();
   }
 
   /* ---------- sticky header height -> --stick (drives scroll-margin) ---------- */
