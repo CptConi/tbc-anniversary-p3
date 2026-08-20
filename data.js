@@ -26,7 +26,7 @@ const PREP_CHECKLIST = [
   { id: 'rep-cenarion', label: 'Exalté <strong>Expédition Cénarienne</strong>', note: 'Flacons via Marques des Illidari' },
   { id: 'rep-shatar', label: "Exalté <strong>Sha'tar</strong>", note: 'Flacons via Marques des Illidari' },
   { id: 'rep-aldor', label: 'Exalté <strong>Aldor / Clairvoyants</strong>', note: 'Flacons via Marques des Illidari' },
-  { id: 'shadow-res', label: '<strong>178</strong> résistance Ombre non-buffée', note: '248 avec le buff Prêtre — Mother Shahraz' },
+  { id: 'shadow-res', label: '<strong>174</strong> résistance Ombre sur l\'équipement', note: '244 en combat avec le buff +70 — Mother Shahraz' },
   { id: 'food-bloodfin', label: 'Stock de <strong>Broiled Bloodfin</strong>', note: '+8 toutes résistances — journalières cuisine/pêche' },
   { id: 'flask-chromatic', label: 'Stock de <strong>Flask of Chromatic Wonder</strong>', note: '+35 toutes résistances — intendant réputation Karazhan' },
   { id: 'quiver', label: '<strong>Carquois / giberne 24 emplacements</strong> (Chasseurs)', note: '~85-100g + 1 Néant primordial, Travail du cuir' },
@@ -54,11 +54,14 @@ const INTRO_BLOCKS = [
   {
     title: "Résistance à l'Ombre (Mother Shahraz)",
     items: [
-      "Viser <strong>178 de résistance à l'Ombre non-buffée</strong> (248 avec le buff Prêtre) pour l'ensemble du raid.",
-      { t: 'Astuces de consommables hors-équipement :', sub: [
+      "Viser <strong>244 de résistance à l'Ombre pendant le combat</strong> : c'est le palier où plus aucun coup d'Ombre ne passe à plein dégât.",
+      "Le buff de raid apporte <strong>+70</strong> — <strong>Prayer of Shadow Protection</strong> rang 2 du Prêtre, ou <strong>Shadow Resistance Aura</strong> du Paladin. <span class=\"warn\">Ils ne se cumulent pas</span>, et aucun totem de Chaman ne donne de résistance à l'Ombre. Il reste donc <strong>174 à trouver sur l'équipement</strong>.",
+      "<button type=\"button\" class=\"linklike js-sr-open\">Comment atteindre le cap facilement ?</button>",
+      { t: 'Consommables qui comptent dans les 244 :', sub: [
         "<strong>Broiled Bloodfin</strong> (nourriture) : +8 à toutes les résistances — recette des journalières de cuisine/pêche.",
-        "<strong>Flask of Chromatic Wonder</strong> : +35 à toutes les résistances — disponible auprès de l'intendant de réputation de Karazhan.",
+        "<strong>Flask of Chromatic Wonder</strong> : +35 à toutes les résistances — intendant de réputation de Karazhan.",
       ] },
+      "<strong>Major Shadow Protection Potion</strong> : absorbe 2 800 à 4 000 dégâts d'Ombre pendant 2 min. <span class=\"warn\">Elle absorbe, elle n'ajoute pas de résistance</span> — elle ne compte pas dans les 244. Une en pré-pot, une pendant le combat.",
     ],
   },
   {
@@ -695,7 +698,7 @@ const RAIDS = [
           {
             title: 'Prérequis',
             items: [
-              "<strong>178 de résistance à l'Ombre non-buffée</strong> pour tout le raid (248 avec le buff Prêtre). Voir la <a href=\"#intro\">section Préparation</a>.",
+              "<strong>174 de résistance à l'Ombre sur l'équipement</strong> pour tout le raid, soit <strong>244 en combat</strong> avec le buff +70. <button type=\"button\" class=\"linklike js-sr-open\">Comment atteindre le cap facilement ?</button>",
             ],
           },
           {
@@ -836,6 +839,100 @@ const RAIDS = [
     ],
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Shadow resistance guide (shown in a modal from the intro tab and from the
+// Mother Shahraz section). Every number below was checked against Wowhead's
+// TBC dataset; see README for what was corrected from the first draft.
+// ---------------------------------------------------------------------------
+const SHADOW_RESIST = {
+  title: "Atteindre le cap de résistance à l'Ombre",
+  subtitle: 'Mother Shahraz — Temple Noir',
+
+  intro: [
+    "Mother Shahraz arrose le raid de dégâts d'Ombre : <strong>Fatal Attraction</strong> et les quatre rayons <strong>Sinful Beam</strong>, <strong>Sinister Beam</strong>, <strong>Vile Beam</strong> et <strong>Wicked Beam</strong>. Sans résistance, ça one-shot.",
+    "La cible pratique est <strong>244 de résistance à l'Ombre pendant le combat</strong>. C'est le palier où chaque coup d'Ombre subit au moins une résistance partielle — plus aucun coup à plein dégât. Le plafond absolu du jeu est 365, hors de portée en Phase 3.",
+  ],
+
+  buff: {
+    title: 'Le buff de raid : +70',
+    items: [
+      "<strong>Prayer of Shadow Protection</strong> rang 2 (Prêtre niveau 70) : +70 pendant 20 min.",
+      "<strong>Shadow Resistance Aura</strong> (Paladin) : +70, en continu.",
+      "<span class=\"warn\">Les deux ne se cumulent pas</span> — seul le plus élevé s'applique. Un seul suffit.",
+      "<span class=\"warn\">Il n'existe aucun totem de résistance à l'Ombre en TBC.</span> Les Chamans n'ont que Feu, Givre et Nature.",
+    ],
+  },
+
+  target: {
+    title: 'Ce qu\'il faut sur le personnage',
+    items: [
+      "<strong>244 buffé</strong> − 70 de buff = <strong>174 sur l'équipement</strong>, non buffé.",
+      "Viser 178 non buffé (248 buffé) donne une petite marge, sans rien changer à la méthode.",
+    ],
+  },
+
+  sources: {
+    title: 'Les sources de résistance',
+    note: 'Colonne « RO » = résistance à l\'Ombre apportée.',
+    rows: [
+      { item: 'Medallion of Karabor', slot: 'Cou', sr: '+40', how: "Quête d'accès au Temple Noir", universal: true },
+      { item: "Night's End", slot: 'Dos', sr: '+40', how: 'Couture 375 · Cendrelangue <strong>Honoré</strong> · 1 Cœur des ténèbres · <em>BoE</em>', universal: true },
+      { item: 'Enchant Cloak - Greater Shadow Resistance', slot: 'Dos', sr: '+15', how: 'Enchantement, se cumule avec la cape', universal: true },
+      { item: 'Glyph of Shadow Warding', slot: 'Tête', sr: '+20', how: 'Ville basse <strong>Honoré</strong>', universal: true },
+      { item: 'Shadow Armor Kit', slot: 'Torse, jambes, mains, pieds', sr: '+8 ×4 = +32', how: 'Travail du cuir — remplace l\'enchantement du slot', universal: true },
+      { item: 'Prismatic Sphere', slot: 'Châsses', sr: '+3 chacune', how: 'Joaillerie — <span class="warn">+3, pas +4</span>', universal: true },
+      { item: 'Shadesteel Bracers', slot: 'Poignets', sr: '+40', how: 'Forge 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', plate: true },
+      { item: 'Shadesteel Girdle', slot: 'Taille', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
+      { item: 'Shadesteel Sabots', slot: 'Pieds', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
+      { item: 'Shadesteel Greaves', slot: 'Jambes', sr: '+72', how: 'Forge 375 · <em>BoE</em>', plate: true },
+    ],
+  },
+
+  paths: [
+    {
+      title: 'Toutes classes — 174 non buffé, sans une seule pièce achetée à l\'HV',
+      total: '174 non buffé · 244 buffé',
+      steps: [
+        'Medallion of Karabor <span class="sr-n">+40</span> — vous l\'avez déjà, c\'est la quête d\'accès.',
+        'Night\'s End <span class="sr-n">+40</span> + son enchantement de cape <span class="sr-n">+15</span> = <span class="sr-n">55</span>.',
+        'Glyph of Shadow Warding sur la tête <span class="sr-n">+20</span>.',
+        'Shadow Armor Kit sur torse, jambes, mains et pieds <span class="sr-n">+32</span>.',
+        '<strong>Sous-total : 147.</strong> Il manque 27.',
+        '9 Prismatic Sphere dans vos châsses <span class="sr-n">+27</span> → <strong>174</strong>.',
+      ],
+    },
+    {
+      title: 'Porteurs de plaque — beaucoup plus court',
+      total: '187 non buffé · 257 buffé, sans aucune gemme',
+      steps: [
+        'Le même socle à <span class="sr-n">147</span>.',
+        'Shadesteel Bracers <span class="sr-n">+40</span> → <strong>187</strong>, cap dépassé sans toucher aux châsses.',
+        'Les autres pièces Shadesteel (ceinturon, sabots, grèves) ne sont pas nécessaires pour Shahraz.',
+      ],
+    },
+  ],
+
+  consumable: {
+    title: 'Consommable',
+    items: [
+      "<strong>Major Shadow Protection Potion</strong> : absorbe 2 800 à 4 000 dégâts d'Ombre pendant 2 min, 2 min de recharge.",
+      "Une en pré-pot avant le pull, une pendant le combat.",
+      "<span class=\"warn\">Elle absorbe, elle n'ajoute pas de résistance</span> — elle ne compte pas dans les 244.",
+    ],
+  },
+
+  caveats: {
+    title: 'Les compromis à connaître',
+    items: [
+      "Les <strong>Shadow Armor Kit</strong> occupent la place de l'enchantement normal du slot. Quatre kits, c'est quatre enchantements de stats perdus.",
+      "Idem pour les gemmes : chaque Prismatic Sphere remplace une gemme de stats.",
+      "<strong>Night's End</strong> et les pièces <strong>Shadesteel</strong> sont <em>BoE</em> : un artisan de la guilde peut les fabriquer pour vous, ou elles se trouvent à l'hôtel des ventes.",
+      "Le Cœur des ténèbres tombe dans le Temple Noir. Un seul par joueur suffit pour la cape ou les brassards.",
+      "Ce set ne sert que sur Shahraz. Prévoyez de le déséquiper juste après.",
+    ],
+  },
+};
 
 const ROLES = [
   { id: 'tank', label: 'Tank', short: 'TANK' },
