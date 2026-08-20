@@ -684,6 +684,12 @@ const WOWHEAD = {
   "id": 34006,
   "kind": "spell",
   "name": "Enchant Cloak - Greater Shadow Resistance"
+ },
+ "Void Sphere": {
+  "icon": "inv_enchant_voidsphere",
+  "id": 22459,
+  "kind": "item",
+  "name": "Void Sphere"
  }
 };
 

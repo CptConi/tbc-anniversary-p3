@@ -875,13 +875,15 @@ const SHADOW_RESIST = {
   sources: {
     title: 'Les sources de résistance',
     note: 'Colonne « RO » = résistance à l\'Ombre apportée.',
+    warn: "TBC ne propose <strong>aucun set de résistance à l'Ombre en tissu, cuir ou mailles</strong>. Les seules pièces d'équipement dédiées sont les Shadesteel, en plaque. Les autres classes passent uniquement par les emplacements universels ci-dessus — cou, dos, tête, renforts d'armure et châsses — ce qui suffit largement pour atteindre le cap.",
     rows: [
       { item: 'Medallion of Karabor', slot: 'Cou', sr: '+40', how: "Quête d'accès au Temple Noir", universal: true },
       { item: "Night's End", slot: 'Dos', sr: '+40', how: 'Couture 375 · Cendrelangue <strong>Honoré</strong> · 1 Cœur des ténèbres · <em>BoE</em>', universal: true },
       { item: 'Enchant Cloak - Greater Shadow Resistance', slot: 'Dos', sr: '+15', how: 'Enchantement, se cumule avec la cape', universal: true },
       { item: 'Glyph of Shadow Warding', slot: 'Tête', sr: '+20', how: 'Ville basse <strong>Honoré</strong>', universal: true },
       { item: 'Shadow Armor Kit', slot: 'Torse, jambes, mains, pieds', sr: '+8 ×4 = +32', how: 'Travail du cuir — remplace l\'enchantement du slot', universal: true },
-      { item: 'Prismatic Sphere', slot: 'Châsses', sr: '+3 chacune', how: 'Joaillerie — <span class="warn">+3, pas +4</span>', universal: true },
+      { item: 'Void Sphere', slot: 'Châsses', sr: '+4 chacune', how: 'Toutes résistances, va dans une châsse rouge, jaune ou bleue', universal: true },
+      { item: 'Prismatic Sphere', slot: 'Châsses', sr: '+3 chacune', how: 'Repli si vous ne trouvez pas de Sphère de vide', universal: true },
       { item: 'Shadesteel Bracers', slot: 'Poignets', sr: '+40', how: 'Forge 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', plate: true },
       { item: 'Shadesteel Girdle', slot: 'Taille', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
       { item: 'Shadesteel Sabots', slot: 'Pieds', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
@@ -892,14 +894,15 @@ const SHADOW_RESIST = {
   paths: [
     {
       title: 'Toutes classes — 174 non buffé, sans une seule pièce achetée à l\'HV',
-      total: '174 non buffé · 244 buffé',
+      total: '175 non buffé · 245 buffé',
       steps: [
         'Medallion of Karabor <span class="sr-n">+40</span> — vous l\'avez déjà, c\'est la quête d\'accès.',
         'Night\'s End <span class="sr-n">+40</span> + son enchantement de cape <span class="sr-n">+15</span> = <span class="sr-n">55</span>.',
         'Glyph of Shadow Warding sur la tête <span class="sr-n">+20</span>.',
         'Shadow Armor Kit sur torse, jambes, mains et pieds <span class="sr-n">+32</span>.',
         '<strong>Sous-total : 147.</strong> Il manque 27.',
-        '9 Prismatic Sphere dans vos châsses <span class="sr-n">+27</span> → <strong>174</strong>.',
+        '7 Void Sphere dans vos châsses <span class="sr-n">+28</span> → <strong>175</strong>.',
+        'À défaut, 9 Prismatic Sphere <span class="sr-n">+27</span> font aussi l\'affaire.',
       ],
     },
     {
@@ -926,7 +929,7 @@ const SHADOW_RESIST = {
     title: 'Les compromis à connaître',
     items: [
       "Les <strong>Shadow Armor Kit</strong> occupent la place de l'enchantement normal du slot. Quatre kits, c'est quatre enchantements de stats perdus.",
-      "Idem pour les gemmes : chaque Prismatic Sphere remplace une gemme de stats.",
+      "Idem pour les gemmes : chaque Sphère de vide remplace une gemme de stats.",
       "<strong>Night's End</strong> et les pièces <strong>Shadesteel</strong> sont <em>BoE</em> : un artisan de la guilde peut les fabriquer pour vous, ou elles se trouvent à l'hôtel des ventes.",
       "Le Cœur des ténèbres tombe dans le Temple Noir. Un seul par joueur suffit pour la cape ou les brassards.",
       "Ce set ne sert que sur Shahraz. Prévoyez de le déséquiper juste après.",
