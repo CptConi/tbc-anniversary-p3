@@ -27,6 +27,8 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
+Live at **https://tbc-anniversary-p3.vercel.app**.
+
 **Do not open `index.html` via `file://`** — a `file://` page has a null origin, so the
 embedded YouTube player refuses to load (*"Erreur 153 — erreur de configuration du lecteur
 vidéo"*). Everything else works, and the play button falls back to opening YouTube in a new
@@ -118,9 +120,10 @@ Pasting the URL in Discord, Slack or Signal renders a card: the two-line
 keep it), the Horde-themed `og-image.png`, and a left accent bar taken from
 `theme-color`, which tracks the Horde background.
 
-`og:image` is root-relative (`/og-image.png`) because the deployment domain is not
-baked into the repo; those clients resolve it against the page URL. If a stricter
-crawler ever refuses it, replace it with the absolute `https://…` URL.
+`og:image` and `og:url` are absolute — the OpenGraph spec requires it and strict
+crawlers reject a relative image. Both point at
+`https://tbc-anniversary-p3.vercel.app`; update the host in `index.html` if the
+site moves.
 
 To regenerate the card after editing `tools/og-image.html`:
 
