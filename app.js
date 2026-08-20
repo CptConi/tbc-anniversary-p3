@@ -637,7 +637,7 @@
       var dlg = document.getElementById('sr-modal');
       if (!dlg || !dlg.open) return;
       // close on the X, or on a click that lands on the backdrop rather than the panel
-      if (e.target.closest('.modal-close') || e.target === dlg) dlg.close();
+      if (e.target.closest('.modal-close') || e.target.id === 'modal-backdrop') closeShadowResist();
     });
 
     // Theme switcher
@@ -667,6 +667,18 @@
     document.addEventListener('keydown', function (e) {
       var t = e.target;
       var typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+      var srDlg = document.getElementById('sr-modal');
+      if (srDlg && srDlg.open) {
+        if (e.key === 'Escape') { e.preventDefault(); closeShadowResist(); return; }
+        if (e.key === 'Tab') {
+          var f = srFocusables(srDlg);
+          if (!f.length) return;
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+        return;
+      }
       if (e.key === 'Escape' && typing && t.id === 'search') {
         t.value = ''; applyFilters(); t.blur(); return;
       }
@@ -863,6 +875,7 @@
     var box = el('section', { class: 'sr-block' });
     box.appendChild(el('h3', null, d.sources.title));
     box.appendChild(el('p', { class: 'sr-note' }, d.sources.note));
+    if (d.sources.warn) box.appendChild(el('p', { class: 'sr-warn' }, d.sources.warn));
     var scroll = el('div', { class: 'sr-tablewrap' });
     var table = el('table', { class: 'sr-table' });
     table.innerHTML = '<thead><tr><th>Source</th><th>Emplacement</th><th>RO</th><th>Comment l\'obtenir</th></tr></thead>';
@@ -897,11 +910,40 @@
     body.dataset.rendered = '1';
   }
 
+  // Deliberately NOT showModal(): that puts the dialog in the top layer, which
+  // outranks every z-index, so Wowhead's tooltip — appended to <body> — renders
+  // behind the panel. Relocating the tooltip into the dialog breaks its markup
+  // (the frame stays behind, only the text follows). A non-modal dialog with our
+  // own backdrop keeps one ordinary stacking context and the tooltip wins on its
+  // own z-index. The trade-off is doing ESC and the focus trap by hand.
+  var srLastFocus = null;
+
+  function srFocusables(dlg) {
+    return $$('button, a[href], input, [tabindex]:not([tabindex="-1"])', dlg)
+      .filter(function (n) { return n.offsetParent !== null; });
+  }
+
   function openShadowResist() {
     renderShadowResist();
     var dlg = document.getElementById('sr-modal');
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    srLastFocus = document.activeElement;
+    $('#modal-backdrop').hidden = false;
+    document.body.classList.add('is-modal-open');
+    dlg.show();
+    dlg.setAttribute('aria-modal', 'true');
+    var close = $('.modal-close', dlg);
+    if (close) close.focus();
     whRefreshTooltips();
+  }
+
+  function closeShadowResist() {
+    var dlg = document.getElementById('sr-modal');
+    if (!dlg.open) return;
+    dlg.close();
+    dlg.removeAttribute('aria-modal');
+    $('#modal-backdrop').hidden = true;
+    document.body.classList.remove('is-modal-open');
+    if (srLastFocus && srLastFocus.focus) srLastFocus.focus();
   }
 
   /* ---------- sticky header height -> --stick (drives scroll-margin) ---------- */

@@ -707,10 +707,22 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
    Shadow-resistance modal
    =========================================================== */
 
+/* The dialog is opened non-modally (see app.js), so it needs its own placement,
+   its own backdrop, and a z-index below Wowhead's tooltip (2147483647). */
+#modal-backdrop {
+  position: fixed; inset: 0; z-index: 190;
+  background: rgba(0, 0, 0, .66);
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+}
+#modal-backdrop[hidden] { display: none; }
+body.is-modal-open { overflow: hidden; }
+
 .modal {
+  position: fixed; z-index: 200;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: min(860px, calc(100vw - 32px));
   max-height: min(86vh, 900px);
-  padding: 0;
+  margin: 0; padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-2);
@@ -718,7 +730,6 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
   box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
   overflow: hidden;
 }
-.modal::backdrop { background: rgba(0, 0, 0, .66); backdrop-filter: blur(3px); }
 .modal:not([open]) { display: none; }
 
 .modal-head {
@@ -752,6 +763,14 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
   text-transform: uppercase; letter-spacing: .09em; color: var(--brand);
 }
 .sr-note { margin: 0 0 12px; font-size: .82rem; color: var(--text-faint); }
+.sr-warn {
+  margin: 0 0 14px; padding: 11px 14px;
+  font-size: .85rem; line-height: 1.6;
+  border-left: 3px solid var(--warn);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: color-mix(in srgb, var(--warn) 9%, transparent);
+}
+
 .sr-block ul { margin: 0; padding-left: 1.3em; }
 .sr-block li { margin-bottom: 9px; }
 .sr-block li:last-child { margin-bottom: 0; }
@@ -790,10 +809,11 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
 .sr-table tr.is-plate td:first-child { color: var(--text-dim); }
 
 @media (max-width: 620px) {
-  .modal { width: 100vw; max-width: 100vw; max-height: 100vh; border-radius: 0; border: 0; }
+  .modal { width: 100vw; max-width: 100vw; max-height: 100vh; border-radius: 0; border: 0;
+           top: 0; left: 0; transform: none; }
   .modal-body { max-height: calc(100vh - 96px); padding: 18px 18px 26px; }
 }
-@media print { .modal { display: none !important; } }
+@media print { .modal, #modal-backdrop { display: none !important; } }
 
 /* ===========================================================
    Print
