@@ -21,6 +21,11 @@
     try { localStorage.setItem(LS + key, JSON.stringify(value)); } catch (e) {}
   }
 
+  var THEMES = ['light', 'dark', 'horde', 'alliance'];
+  var DEFAULT_THEME = 'horde';
+  var currentTheme = load('theme', DEFAULT_THEME);
+  if (THEMES.indexOf(currentTheme) === -1) currentTheme = DEFAULT_THEME;
+
   var openState = load('open', {});
   var checkState = load('check', {});
   var activeRoles = load('roles', []);
@@ -626,6 +631,11 @@
       });
     });
 
+    // Theme switcher
+    $$('.theme-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { setTheme(btn.dataset.themeSet); });
+    });
+
     // Bulk expand / collapse
     $('#expand-all').addEventListener('click', function () { setAllOpen(true); });
     $('#collapse-all').addEventListener('click', function () { setAllOpen(false); });
@@ -688,6 +698,38 @@
     var s = Math.floor(diff / 1000) % 60;
     var pad = function (n) { return (n < 10 ? '0' : '') + n; };
     node.innerHTML = 'Phase 3 dans <b>J-' + d + '</b> ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+
+  /* ---------- theme ---------- */
+
+  // The Horde and Alliance themes lean on Montserrat (the accent face Blizzard's
+  // own site lists). Only fetch it when one of them is actually selected.
+  var DISPLAY_FONT_THEMES = ['horde', 'alliance'];
+
+  function ensureDisplayFont() {
+    if (document.getElementById('horde-font')) return;
+    var l = document.createElement('link');
+    l.id = 'horde-font';
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap';
+    document.head.appendChild(l);
+  }
+
+  function setTheme(name, persist) {
+    if (THEMES.indexOf(name) === -1) name = DEFAULT_THEME;
+    currentTheme = name;
+    document.documentElement.setAttribute('data-theme', name);
+    if (DISPLAY_FONT_THEMES.indexOf(name) !== -1) ensureDisplayFont();
+    $$('.theme-btn').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.themeSet === name ? 'true' : 'false');
+    });
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute('content', {
+        light: '#f5f7f3', horde: '#12100c', alliance: '#0a0d15', dark: '#0b0d0a',
+      }[name]);
+    }
+    if (persist !== false) save('theme', name);
   }
 
   /* ---------- Wowhead decoration ---------- */
@@ -770,6 +812,7 @@
   /* ---------- boot ---------- */
 
   function init() {
+    setTheme(currentTheme, false);
     renderIntro();
     RAIDS.forEach(renderRaid);
     trackStickyHeight();

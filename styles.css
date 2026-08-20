@@ -1,16 +1,19 @@
 /* ===========================================================
    Not So Bad — P3 raid guide
 
-   Dark TBC theme: fel green base, Horde red brand,
-   frost accent for Hyjal, warp accent for Black Temple.
+   Three themes, switched via data-theme on <html>:
+     (none) / "dark"  Dark Modern  — fel green, Horde red
+     "light"          Light Modern — same structure, light ground
+     "horde"          Horde        — Blizzard WoW site palette:
+                                     warm near-black, gold #f8b700, rust red
 
-   Every colour is a token on :root. Component rules below never
-   hardcode one, so a second palette is a second token block.
+   Every theme redefines the same token set. Component rules below
+   never hardcode a color: they only read tokens.
    =========================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* ---------------- Tokens ---------------- */
+/* ---------------- Tokens: Dark Modern (default) ---------------- */
 
 :root {
   color-scheme: dark;
@@ -59,6 +62,123 @@
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
   --display: var(--sans);
+}
+
+/* ---------------- Tokens: Light Modern ---------------- */
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg:            #f5f7f3;
+  --bg-2:          #ffffff;
+  --surface:       #ffffff;
+  --surface-2:     #f1f4ee;
+  --surface-3:     #e6ebe1;
+  --line:          #dde2d7;
+  --line-soft:     #e9ede4;
+
+  --text:          #171a14;
+  --text-dim:      #565d4e;
+  --text-faint:    #808872;
+
+  --brand:         #3f7d0c;
+  --brand-dim:     #56a218;
+  --horde:         #b01c33;
+  --warn:          #a35a00;
+  --mark-bg:       rgba(255, 214, 0, .45);
+
+  --raid-hyjal:    #0d7796;
+  --raid-bt:       #6c33c4;
+
+  --tank:          #1a63c4;
+  --heal:          #147a41;
+  --melee:         #b44d0a;
+  --ranged:        #6b34b8;
+
+  --header-glow:   rgba(176, 28, 51, .06);
+  --page-glow:     rgba(63, 125, 12, .05);
+}
+
+/* ---------------- Tokens: Horde (Blizzard WoW palette) ---------------- */
+
+:root[data-theme="horde"] {
+  color-scheme: dark;
+
+  --bg:            #12100c;
+  --bg-2:          #191510;
+  --surface:       #211b13;
+  --surface-2:     #2a2218;
+  --surface-3:     #362b1e;
+  --line:          #4a3a24;
+  --line-soft:     #33281a;
+
+  --text:          #f0e7d6;
+  --text-dim:      #bcab8e;
+  --text-faint:    #8d7d64;
+
+  --brand:         #f8b700;   /* Blizzard gold */
+  --brand-dim:     #c48f00;
+  --horde:         #a5321a;   /* rust CTA red */
+  --warn:          #ff8a3c;
+  --mark-bg:       rgba(248, 183, 0, .32);
+
+  --raid-hyjal:    #f8b700;
+  --raid-bt:       #d9542b;
+
+  --tank:          #6fa8dc;
+  --heal:          #8fc96a;
+  --melee:         #e8763a;
+  --ranged:        #c98fe0;
+
+  --header-glow:   rgba(165, 50, 26, .22);
+  --page-glow:     rgba(248, 183, 0, .07);
+
+  --head-case:     uppercase;
+  --head-track:    .02em;
+  --rule:          1px;
+
+  --display: "Montserrat", var(--sans);
+}
+
+/* ---------------- Tokens: Alliance (Blizzard site blue/slate) ---------------- */
+
+:root[data-theme="alliance"] {
+  color-scheme: dark;
+
+  --bg:            #0a0d15;
+  --bg-2:          #101725;
+  --surface:       #151c28;
+  --surface-2:     #1d2534;
+  --surface-3:     #262f40;
+  --line:          #323a48;
+  --line-soft:     #262f40;
+
+  --text:          #e8edf6;
+  --text-dim:      #a4b0c4;
+  --text-faint:    #6e7d94;
+
+  --brand:         #38a8ff;   /* Blizzard primary-300 */
+  --brand-dim:     #0076d1;   /* primary-500 */
+  --horde:         #b8452f;   /* muted, the footer badge is literal text */
+  --warn:          #ffbb33;   /* Blizzard warning-500 */
+  --mark-bg:       rgba(56, 168, 255, .30);
+
+  --raid-hyjal:    #5ad1e8;
+  --raid-bt:       #9b7cff;
+
+  --tank:          #6fb4ff;
+  --heal:          #4fd18a;
+  --melee:         #ff9455;
+  --ranged:        #b98cff;
+
+  --header-glow:   rgba(5, 146, 255, .16);
+  --page-glow:     rgba(56, 168, 255, .06);
+
+  --head-case:     uppercase;
+  --head-track:    .02em;
+  --rule:          1px;
+
+  --display: "Montserrat", var(--sans);
 }
 
 /* ===========================================================
@@ -133,10 +253,28 @@ a:hover { text-decoration-color: currentColor; }
   font-weight: 800; letter-spacing: var(--head-track); line-height: 1.22;
   text-transform: var(--head-case);
 }
-.site-title .accent {
-  color: var(--brand);
-  text-shadow: 0 0 26px color-mix(in srgb, var(--brand) 30%, transparent);
+.site-title .accent { color: var(--brand); }
+:root:not([data-theme="light"]) .site-title .accent { text-shadow: 0 0 26px color-mix(in srgb, var(--brand) 30%, transparent); }
+
+/* Theme switcher */
+.theme-switch {
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
 }
+.theme-btn {
+  appearance: none; cursor: pointer; font: inherit;
+  font-size: .74rem; font-weight: 700; letter-spacing: .02em;
+  padding: 5px 12px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--text-faint);
+  display: inline-flex; align-items: center; gap: 6px; transition: color .13s, background .13s;
+}
+.theme-btn:hover { color: var(--text); }
+.theme-btn .dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(128,128,128,.4); flex: none; }
+.theme-btn[data-theme-set="light"] .dot { background: #f5f7f3; }
+.theme-btn[data-theme-set="dark"]  .dot { background: #0b0d0a; box-shadow: inset 0 0 0 2px #a3ff3c; }
+.theme-btn[data-theme-set="horde"] .dot { background: #12100c; box-shadow: inset 0 0 0 2px #f8b700; }
+.theme-btn[data-theme-set="alliance"] .dot { background: #0a0d15; box-shadow: inset 0 0 0 2px #38a8ff; }
+.theme-btn[aria-pressed="true"] { background: var(--surface-3); color: var(--text); }
 
 .countdown {
   font-family: var(--mono); font-size: .8rem;
@@ -544,12 +682,27 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
 }
 .gh:hover { color: var(--text); border-color: var(--brand-dim); }
 
+/* Light theme needs a touch more separation than borders alone give */
+:root[data-theme="light"] .boss,
+:root[data-theme="light"] .release-card,
+:root[data-theme="light"] .checklist-card,
+:root[data-theme="light"] .sources-card,
+:root[data-theme="light"] .prep-block { box-shadow: 0 1px 2px rgba(20, 30, 15, .05); }
+:root[data-theme="light"] .boss[open] { background: var(--surface); }
+
+/* Horde theme: gold hairline above each card, Blizzard-style */
+:root[data-theme="horde"] .release-card,
+:root[data-theme="horde"] .checklist-card,
+:root[data-theme="horde"] .sources-card,
+:root[data-theme="horde"] .prep-block { border-top: 2px solid color-mix(in srgb, var(--brand) 55%, transparent); }
+:root[data-theme="horde"] .boss[open] { background: var(--bg-2); }
+
 /* ===========================================================
    Print
    =========================================================== */
 
 @media print {
-  .stickyhead, .boss-tools, .chev, .video, .skip-link, .jumpbar, .countdown { display: none !important; }
+  .stickyhead, .boss-tools, .chev, .video, .skip-link, .jumpbar, .theme-switch, .countdown { display: none !important; }
   .panel[hidden] { display: block !important; }
   body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.5; }
   .boss, .release-card, .checklist-card, .sources-card, .prep-block { border-color: #bbb; background: #fff; break-inside: avoid; box-shadow: none; }

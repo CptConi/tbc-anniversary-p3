@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Not So Bad — Guide Phase 3 : Mont Hyjal &amp; Temple Noir</title>
 <meta name="description" content="Guide de raid Phase 3 TBC Anniversary — Mont Hyjal et Temple Noir. Stratégies par boss et par rôle pour la guilde Not So Bad, Thunderstrike FR.">
-<meta name="theme-color" content="#0b0d0a">
+<meta name="theme-color" content="#12100c">
 <meta property="og:title" content="Guide Phase 3 — Hyjal &amp; Temple Noir">
 <meta property="og:description" content="Stratégies par boss et par rôle. Not So Bad — Thunderstrike FR.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://i.ytimg.com">
 <link rel="preconnect" href="https://wow.zamimg.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#128128;</text></svg>">
+<script>
+  /* Apply the stored theme before first paint to avoid a flash. */
+  (function () {
+    var t = 'horde';
+    try { t = JSON.parse(localStorage.getItem('nsbp3.theme')) || 'horde'; } catch (e) {}
+    if (['light', 'dark', 'horde', 'alliance'].indexOf(t) === -1) t = 'horde';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,6 +39,12 @@
       </div>
     </div>
     <div class="header-tools">
+      <div class="theme-switch" role="group" aria-label="Thème du site">
+        <button type="button" class="theme-btn" data-theme-set="light" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Clair</button>
+        <button type="button" class="theme-btn" data-theme-set="dark" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Sombre</button>
+        <button type="button" class="theme-btn" data-theme-set="horde" aria-pressed="true"><span class="dot" aria-hidden="true"></span>Horde</button>
+        <button type="button" class="theme-btn" data-theme-set="alliance" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Alliance</button>
+      </div>
       <div id="countdown" class="countdown" role="status" aria-live="polite"></div>
     </div>
     <h1 class="site-title">Guide <span class="accent">Phase&nbsp;3</span> — Mont Hyjal &amp; Temple Noir</h1>
