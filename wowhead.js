@@ -361,7 +361,7 @@ const WOWHEAD = {
   "kind": "npc",
   "name": "Shadowy Construct"
  },
- "Silence d'Ombre": {
+ "Howl of Azgalor": {
   "icon": "spell_shadow_impphaseshift",
   "id": 31344,
   "kind": "spell",
@@ -427,7 +427,7 @@ const WOWHEAD = {
   "kind": "npc",
   "name": "Supremus"
  },
- "Tear of the Goddess": {
+ "Tears of the Goddess": {
   "icon": "spell_arcane_arcane01",
   "id": 24494,
   "kind": "item",
@@ -504,6 +504,96 @@ const WOWHEAD = {
   "id": 26669,
   "kind": "spell",
   "name": "Evasion"
+ },
+ "Bloodlust": {
+  "icon": "spell_nature_bloodlust",
+  "id": 2825,
+  "kind": "spell",
+  "name": "Bloodlust"
+ },
+ "Heroism": {
+  "icon": "ability_shaman_heroism",
+  "id": 32182,
+  "kind": "spell",
+  "name": "Heroism"
+ },
+ "Lesser Doomguard": {
+  "icon": null,
+  "id": 17864,
+  "kind": "npc",
+  "name": "Lesser Doomguard"
+ },
+ "Judgement of Command": {
+  "icon": "ability_warrior_innerrage",
+  "id": 41470,
+  "kind": "spell",
+  "name": "Judgement of Command"
+ },
+ "Seal of Command": {
+  "icon": "ability_warrior_innerrage",
+  "id": 41469,
+  "kind": "spell",
+  "name": "Seal of Command"
+ },
+ "Molten Punch": {
+  "icon": "spell_fire_felimmolation",
+  "id": 40126,
+  "kind": "spell",
+  "name": "Molten Punch"
+ },
+ "Volcanic Geyser": {
+  "icon": "spell_fire_volcano",
+  "id": 40118,
+  "kind": "spell",
+  "name": "Volcanic Geyser"
+ },
+ "Sinful Beam": {
+  "icon": "spell_shadow_shadowbolt",
+  "id": 40827,
+  "kind": "spell",
+  "name": "Sinful Beam"
+ },
+ "Sinister Beam": {
+  "icon": "spell_shadow_shadowbolt",
+  "id": 40859,
+  "kind": "spell",
+  "name": "Sinister Beam"
+ },
+ "Vile Beam": {
+  "icon": "spell_shadow_shadowbolt",
+  "id": 40860,
+  "kind": "spell",
+  "name": "Vile Beam"
+ },
+ "Wicked Beam": {
+  "icon": "spell_shadow_shadowbolt",
+  "id": 40861,
+  "kind": "spell",
+  "name": "Wicked Beam"
+ },
+ "Silencing Shriek": {
+  "icon": "spell_shadow_impphaseshift",
+  "id": 40823,
+  "kind": "spell",
+  "name": "Silencing Shriek"
+ },
+ "Shadow Demon": {
+  "icon": null,
+  "id": 23375,
+  "kind": "npc",
+  "name": "Shadow Demon"
+ },
+ "Shadow Demons": {
+  "icon": null,
+  "id": 23375,
+  "kind": "npc",
+  "name": "Shadow Demon"
+ },
+ "Cage Trap": {
+  "icon": "classic_temp",
+  "id": 40761,
+  "kind": "spell",
+  "name": "Cage Trap"
  }
 };
 
@@ -589,11 +679,11 @@ const WOWHEAD_SCOPED = {
   "kind": "spell",
   "name": "Deaden"
  },
- "Eye Beam": {
-  "icon": "spell_fire_flameshock",
-  "id": 32950,
+ "Eye Blast": {
+  "icon": "classic_temp",
+  "id": 39908,
   "kind": "spell",
-  "name": "Eye Beam"
+  "name": "Eye Blast"
  },
  "Fel Rage": {
   "icon": "classic_spell_fire_elementaldevastation",
@@ -607,17 +697,11 @@ const WOWHEAD_SCOPED = {
   "kind": "spell",
   "name": "Hateful Strike"
  },
- "Molten Flames": {
+ "Molten Flame": {
   "icon": "spell_fire_felfire",
   "id": 40265,
   "kind": "spell",
   "name": "Molten Flame"
- },
- "Météore": {
-  "icon": "spell_fire_fireball02",
-  "id": 38903,
-  "kind": "spell",
-  "name": "Meteor"
  },
  "Spite": {
   "icon": "spell_shadow_demonictactics",
