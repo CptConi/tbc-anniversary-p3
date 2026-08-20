@@ -532,6 +532,9 @@ main { padding-block: 40px 80px; }
   font-family: Georgia, "Times New Roman", serif;
   font-size: 13px; font-weight: 700; font-style: italic;
   line-height: 1; text-decoration: none; letter-spacing: 0;
+  /* Boss titles are uppercased in the Horde and Alliance themes; the badge
+     must stay a lowercase "i", which is the conventional info glyph. */
+  text-transform: none;
   color: var(--text-faint);
   border: 1px solid var(--line);
   background: var(--surface-2);
