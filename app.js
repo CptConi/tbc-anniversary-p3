@@ -847,6 +847,13 @@
     return ul;
   }
 
+  function srTextSection(title, text) {
+    var box = el('section', { class: 'sr-block' });
+    box.appendChild(el('h3', null, title));
+    box.appendChild(el('p', null, text));
+    return box;
+  }
+
   function srSection(title, items, note) {
     var box = el('section', { class: 'sr-block' });
     box.appendChild(el('h3', null, title));
@@ -869,7 +876,7 @@
     body.appendChild(lead);
 
     body.appendChild(srSection(d.buff.title, d.buff.items));
-    body.appendChild(srSection(d.target.title, d.target.items));
+    body.appendChild(srTextSection(d.target.title, d.target.text));
 
     // sources table
     var box = el('section', { class: 'sr-block' });

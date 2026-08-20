@@ -864,12 +864,10 @@ const SHADOW_RESIST = {
     ],
   },
 
+  // Single sentence: rendered as a paragraph, not a one-item list.
   target: {
     title: 'Ce qu\'il faut sur le personnage',
-    items: [
-      "<strong>244 buffé</strong> − 70 de buff = <strong>174 sur l'équipement</strong>, non buffé.",
-      "Viser 178 non buffé (248 buffé) donne une petite marge, sans rien changer à la méthode.",
-    ],
+    text: "<strong>244 buffé</strong> − 70 de buff = <strong>174 sur l'équipement</strong>, non buffé.",
   },
 
   sources: {
