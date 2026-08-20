@@ -21,6 +21,16 @@ const TERON_MINIGAME_LINK =
 // Phase 3 global unlock: 2026-08-27 15:00 PDT === 2026-08-27 22:00 UTC (2026-08-28 00:00 CEST)
 const P3_RELEASE_UTC = '2026-08-27T22:00:00Z';
 
+// Featured video at the top of the preparation tab.
+const INTRO_VIDEO = {
+  vid: 'MXVkBZ7bH9U',
+  t: 0,
+  channel: 'Slesh',
+  title: 'Phase 3 Prep You Probably Forgot About',
+  heading: 'À regarder avant le premier soir',
+  blurb: "Le tour d'horizon de la préparation de Phase 3, par Slesh — les points qu'on oublie généralement. Le reste de cette page en reprend l'essentiel.",
+};
+
 const PREP_CHECKLIST = [
   { id: 'pvp-trinket', label: 'Médaillon JcJ <strong>2 min</strong> acheté (2 000 honneur)', note: 'Obligatoire sauf Paladin / Mage — Rage Winterchill' },
   { id: 'rep-cenarion', label: 'Exalté <strong>Expédition Cénarienne</strong>', note: 'Flacons via Marques des Illidari' },

@@ -624,6 +624,14 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
 .release-grid dd { margin: 4px 0 0; font-size: .93rem; line-height: 1.55; }
 .release-grid .hl dd strong { color: var(--brand); font-size: 1.05em; }
 
+/* Featured video card: full width, no bullet list, video flush to the edges. */
+.prep-video-card { border-top: 2px solid color-mix(in srgb, var(--brand) 55%, transparent); }
+.prep-video-card .sr-note { margin-bottom: 16px; }
+.prep-video-card .video { margin-bottom: 0; }
+.prep-video-card .yt-facade,
+.prep-video-card .video iframe { max-width: 100%; }
+.prep-video-card .yt-actions { max-width: 100%; }
+
 .prep-block ul { margin: 0; padding-left: 1.3em; }
 .prep-block li { margin-bottom: 11px; }
 .prep-block li:last-child { margin-bottom: 0; }
