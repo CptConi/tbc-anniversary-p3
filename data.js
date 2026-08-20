@@ -80,7 +80,7 @@ const RAIDS = [
     slug: 'hyjal',
     name: 'Mont Hyjal',
     short: 'Hyjal',
-    tagline: '5 boss · 8 vagues par camp · zéro droit au wipe',
+    tagline: '5 boss',
     videoLabel: 'Guide vidéo Mont Hyjal — WoW Curios',
     videoUrl: 'https://www.youtube.com/watch?v=' + VID_HYJAL,
     sections: [
@@ -338,7 +338,7 @@ const RAIDS = [
     slug: 'bt',
     name: 'Temple Noir',
     short: 'Temple Noir',
-    tagline: '9 boss · trash technique · Illidan en apothéose',
+    tagline: '9 boss',
     videoLabel: 'Guide vidéo Temple Noir — WoW Curios',
     videoUrl: 'https://www.youtube.com/watch?v=' + VID_BT,
     sections: [
