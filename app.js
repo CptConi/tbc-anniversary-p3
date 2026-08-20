@@ -121,30 +121,57 @@
     return url;
   }
 
-  function renderVideo(video, title) {
+  // opts.size: 'lg' starts the facade full width (used for the featured intro
+  // video). A video with t = 0 is a whole guide, so no timestamp is shown.
+  function renderVideo(video, title, opts) {
     if (!video) return null;
-    var mm = Math.floor(video.t / 60), ss = video.t % 60;
-    var stamp = mm + ':' + (ss < 10 ? '0' : '') + ss;
-    var wrap = el('div', { class: 'video' });
+    opts = opts || {};
+    var big = opts.size === 'lg';
+    var t = video.t || 0;
+    var stamp = t ? Math.floor(t / 60) + ':' + (t % 60 < 10 ? '0' : '') + (t % 60) : '';
+    var channel = video.channel || 'WoW Curios';
+    var wrap = el('div', { class: 'video', 'data-size': big ? 'lg' : 'sm' });
     var btn = el('button', {
       type: 'button',
       class: 'yt-facade js-yt',
       'data-vid': video.vid,
-      'data-t': video.t,
-      'aria-label': 'Lire la vidéo — ' + title + ' à ' + stamp,
+      'data-t': t,
+      'aria-label': 'Lire la vidéo — ' + title + (stamp ? ' à ' + stamp : ''),
     });
+    // hqdefault is 480px — fine for the small boss facades, soft when the
+    // featured video runs full width. maxresdefault is 1280x720 but is not
+    // generated for every upload; the fallback is wired below, in JS rather
+    // than an inline handler.
+    var thumb = big ? 'maxresdefault' : 'hqdefault';
     btn.innerHTML =
-      '<img loading="lazy" decoding="async" alt="" src="https://i.ytimg.com/vi/' + video.vid + '/hqdefault.jpg">' +
+      '<img loading="' + (big ? 'eager' : 'lazy') + '" decoding="async" alt=""' +
+      ' src="https://i.ytimg.com/vi/' + video.vid + '/' + thumb + '.jpg">' +
       '<span class="yt-play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span>' +
-      '<span class="yt-cap"><span>' + title + ' — WoW Curios</span><span class="t">' + stamp + '</span></span>';
+      '<span class="yt-cap"><span>' + title + ' — ' + channel + '</span>' +
+      (stamp ? '<span class="t">' + stamp + '</span>' : '') + '</span>';
     wrap.appendChild(btn);
 
+    if (big) {
+      // YouTube answers a 120px grey placeholder when maxresdefault is missing.
+      var im = btn.querySelector('img');
+      im.addEventListener('load', function () {
+        if (im.naturalWidth <= 120) im.src = im.src.replace('maxresdefault', 'hqdefault');
+      });
+      im.addEventListener('error', function () {
+        im.src = im.src.replace('maxresdefault', 'hqdefault');
+      });
+    }
+
     var actions = el('div', { class: 'yt-actions' });
-    actions.appendChild(el('button', {
-      type: 'button',
-      class: 'yt-size js-yt-size',
-      'aria-expanded': 'false',
-    }, ICON_EXPAND + '<span class="js-yt-size-label">Afficher plus grand</span>'));
+    // The featured card is always full width, so the toggle would do nothing.
+    if (!opts.noResize) {
+      actions.appendChild(el('button', {
+        type: 'button',
+        class: 'yt-size js-yt-size',
+        'aria-expanded': big ? 'true' : 'false',
+      }, (big ? ICON_SHRINK : ICON_EXPAND) +
+         '<span class="js-yt-size-label">' + (big ? 'Réduire' : 'Afficher plus grand') + '</span>'));
+    }
     actions.appendChild(el('a', {
       class: 'yt-out',
       href: watchUrl(video.vid, video.t),
@@ -231,6 +258,15 @@
   }
 
   function renderIntro() {
+    if (typeof INTRO_VIDEO !== 'undefined' && INTRO_VIDEO) {
+      var vhost = document.getElementById('prep-video');
+      var card = el('section', { class: 'prep-block prep-video-card' });
+      card.appendChild(el('h3', null, INTRO_VIDEO.heading));
+      card.appendChild(el('p', { class: 'sr-note' }, INTRO_VIDEO.blurb));
+      card.appendChild(renderVideo(INTRO_VIDEO, INTRO_VIDEO.title, { size: 'lg', noResize: true }));
+      vhost.appendChild(card);
+    }
+
     var host = document.getElementById('prep-blocks');
     INTRO_BLOCKS.forEach(function (b) {
       var card = el('section', { class: 'prep-block', 'data-hl': '' });
