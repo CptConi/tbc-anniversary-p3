@@ -708,6 +708,42 @@ const WOWHEAD = {
   "id": 32399,
   "kind": "item",
   "name": "Bracers of Shackled Souls"
+ },
+ "Sulfuron Slammer": {
+  "icon": "inv_summerfest_firedrink",
+  "id": 38466,
+  "kind": "item",
+  "name": "Sulfuron Slammer"
+ },
+ "Dark Rune": {
+  "icon": "spell_shadow_sealofkings",
+  "id": 20520,
+  "kind": "item",
+  "name": "Dark Rune"
+ },
+ "Demonic Rune": {
+  "icon": "inv_misc_rune_04",
+  "id": 12662,
+  "kind": "item",
+  "name": "Demonic Rune"
+ },
+ "Mortal Strike": {
+  "icon": "ability_warrior_savageblow",
+  "id": 30330,
+  "kind": "spell",
+  "name": "Mortal Strike"
+ },
+ "Wound Poison": {
+  "icon": "inv_misc_herb_16",
+  "id": 27189,
+  "kind": "spell",
+  "name": "Wound Poison"
+ },
+ "Plugger Spazzring": {
+  "icon": null,
+  "id": 9499,
+  "kind": "npc",
+  "name": "Plugger Spazzring"
  }
 };
 
