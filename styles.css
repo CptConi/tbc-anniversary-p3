@@ -655,6 +655,7 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
 .checklist-note { margin: 16px 0 0; font-size: .78rem; color: var(--text-faint); }
 
 .sources-card p { margin: 0 0 10px; font-size: .92rem; color: var(--text-dim); }
+.sources-card ul + p { margin-top: 16px; }
 .sources-card ul { margin: 0; padding-left: 1.3em; font-size: .92rem; }
 .sources-card li { margin-bottom: 7px; }
 .sources-card a { color: var(--brand); }
