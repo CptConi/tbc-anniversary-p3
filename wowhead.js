@@ -744,6 +744,18 @@ const WOWHEAD = {
   "id": 9499,
   "kind": "npc",
   "name": "Plugger Spazzring"
+ },
+ "Free Action Potion": {
+  "icon": "inv_potion_04",
+  "id": 5634,
+  "kind": "item",
+  "name": "Free Action Potion"
+ },
+ "Living Action Potion": {
+  "icon": "inv_potion_07",
+  "id": 20008,
+  "kind": "item",
+  "name": "Living Action Potion"
  }
 };
 
