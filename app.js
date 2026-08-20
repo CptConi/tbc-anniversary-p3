@@ -740,6 +740,10 @@
   var WH_STYLE = 'icon';
   var WH_ICON_BASE = 'https://wow.zamimg.com/images/wow/icons/medium/';
 
+  // Wowhead locale for both the links and the tooltips. '' gives English.
+  var WH_LOCALE = 'fr';
+  var WH_HOST = (WH_LOCALE || 'www') + '.wowhead.com';
+  var WH_DOMAIN = (WH_LOCALE ? WH_LOCALE + '.' : '') + 'tbc';
 
   function whLookup(label, raid) {
     var scoped = (typeof WOWHEAD_SCOPED !== 'undefined' && WOWHEAD_SCOPED[raid]) || null;
@@ -754,9 +758,10 @@
   }
 
   function whUrl(entry) {
+    var base = 'https://' + WH_HOST + '/tbc/';
     return entry.kind === 'search'
-      ? 'https://www.wowhead.com/tbc/search?q=' + encodeURIComponent(entry.q)
-      : 'https://www.wowhead.com/tbc/' + entry.kind + '=' + entry.id;
+      ? base + 'search?q=' + encodeURIComponent(entry.q)
+      : base + entry.kind + '=' + entry.id;
   }
 
   var WH_KIND_LABEL = { spell: 'sort', npc: 'PNJ', item: 'objet', search: 'recherche' };
@@ -780,8 +785,8 @@
       rel: 'noopener',
       'data-wh-kind': entry.kind,
       // Explicit target for the tooltip script, rather than letting it parse
-      // the href. 'tbc' is Wowhead's domain key for TBC Classic.
-      'data-wowhead': entry.kind === 'search' ? null : entry.kind + '=' + entry.id + '&domain=tbc',
+      // the href. 'fr.tbc' is Wowhead's domain key for French TBC Classic.
+      'data-wowhead': entry.kind === 'search' ? null : entry.kind + '=' + entry.id + '&domain=' + WH_DOMAIN,
       title: entry.name + ' \u2014 Wowhead TBC (' + (WH_KIND_LABEL[entry.kind] || entry.kind) + ')',
       'aria-label': 'Voir ' + entry.name + ' sur Wowhead TBC',
     });
