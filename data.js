@@ -248,9 +248,9 @@ const RAIDS = [
           {
             title: 'Capacités importantes',
             items: [
-              "<strong>Doom :</strong> sur un joueur aléatoire toutes les 45 s. À l'expiration (20 s), le joueur meurt instantanément et fait apparaître un <strong>Doomguard</strong> puissant.",
+              "<strong>Doom :</strong> sur un joueur aléatoire toutes les 45 s. À l'expiration (20 s), le joueur meurt instantanément et fait apparaître un <strong>Lesser Doomguard</strong> puissant.",
               "<strong>Rain of Fire :</strong> zone de feu sur un joueur aléatoire.",
-              "<strong>Silence d'Ombre :</strong> réduit le raid au silence pendant 5 s — résistable avec la protection contre l'Ombre.",
+              "<strong>Howl of Azgalor :</strong> réduit le raid au silence pendant 5 s — résistable avec la protection contre l'Ombre.",
               "<strong>Cleave :</strong> attaque frontale.",
             ],
           },
@@ -259,7 +259,7 @@ const RAIDS = [
             role: 'tank',
             items: [
               "Le Main Tank tient le boss face opposée au raid.",
-              "L'<strong>off-tank</strong> se tient éloigné du raid. Il récupère chaque Doomguard à sa naissance et le maintient sur les PNJ alliés pour qu'ils génèrent de la menace à sa place.",
+              "L'<strong>off-tank</strong> se tient éloigné du raid. Il récupère chaque Lesser Doomguard à sa naissance et le maintient sur les PNJ alliés pour qu'ils génèrent de la menace à sa place.",
             ],
           },
           {
@@ -274,8 +274,8 @@ const RAIDS = [
             role: ['melee', 'ranged'],
             items: [
               "Restez bien dispersés pour limiter les dégâts de la Pluie de feu.",
-              "<strong>Si vous recevez Doom : courez immédiatement sur l'off-tank</strong> et attendez votre mort. Le Doomguard doit apparaître directement sur le tank secondaire, pas au milieu des soigneurs ou des casters.",
-              "Ne perdez aucun DPS sur les Doomguards : ils disparaissent d'eux-mêmes à la mort d'Azgalor.",
+              "<strong>Si vous recevez Doom : courez immédiatement sur l'off-tank</strong> et attendez votre mort. Le Lesser Doomguard doit apparaître directement sur le tank secondaire, pas au milieu des soigneurs ou des casters.",
+              "Ne perdez aucun DPS sur les Lesser Doomguards : ils disparaissent d'eux-mêmes à la mort d'Azgalor.",
             ],
           },
         ],
@@ -318,7 +318,7 @@ const RAIDS = [
             title: 'DPS Mêlée & Distance',
             role: ['melee', 'ranged'],
             items: [
-              { t: "<strong>Tear of the Goddess</strong> — à récupérer auprès de Tyrande <em>avant</em> le combat. Sur un Air Burst :", sub: [
+              { t: "<strong>Tears of the Goddess</strong> — à récupérer auprès de Tyrande <em>avant</em> le combat. Sur un Air Burst :", sub: [
                 "Attendez d'atteindre le point le plus haut de la propulsion (l'apex).",
                 "Comptez <strong>3 secondes de chute libre</strong>.",
                 "Activez l'objet — effet de chute lente de 2 secondes.",
@@ -424,14 +424,14 @@ const RAIDS = [
             title: 'Phase 1 (60 s)',
             items: [
               "<strong>Hateful Strike :</strong> attaque de mêlée dévastatrice (27k-32k) lancée périodiquement sur le joueur ayant le plus de PV à portée de mêlée, hors cible principale.",
-              "<strong>Molten Flames :</strong> ligne de feu bleuâtre traçant sa route vers un joueur.",
+              "<strong>Molten Flame :</strong> ligne de feu bleuâtre traçant sa route vers un joueur.",
             ],
           },
           {
-            title: 'Phase 2 (60 s) — phase de Gaze',
+            title: 'Phase 2 (60 s) — phase de fixation',
             items: [
-              "<strong>Volcanos :</strong> pop au sol, 5k dégâts par seconde dans un rayon de 15 m.",
-              "<strong>Gaze :</strong> fixe un joueur toutes les 10 s et le poursuit. S'il l'atteint, <span class=\"warn\">one-shot</span>.",
+              "<strong>Volcanic Geyser :</strong> des volcans poussent au sol et infligent 5k dégâts par seconde dans un rayon de 15 m.",
+              "<strong>Fixation</strong> (le raid dit « gaze ») : Supremus fixe un joueur toutes les 10 s et le poursuit. S'il l'atteint, <strong>Molten Punch</strong> le tue sur le coup.",
             ],
           },
           {
@@ -461,7 +461,7 @@ const RAIDS = [
             title: 'DPS Distance',
             role: 'ranged',
             items: [
-              "En Phase 2, si vous êtes ciblé par la Gaze : <strong>fuyez loin de Supremus</strong> en évitant les volcans au sol.",
+              "En Phase 2, si Supremus vous fixe : <strong>fuyez loin de lui</strong> en évitant les geysers au sol.",
               "Les non-ciblés restent à bonne distance mais peuvent continuer à DPS en bougeant.",
             ],
           },
@@ -559,7 +559,7 @@ const RAIDS = [
           {
             title: 'Raid complet',
             items: [
-              "Héroïsme / Transfusion de sang dès l'engagement et burn du boss le plus vite possible.",
+              "<strong>Bloodlust</strong> dès l'engagement et burn du boss le plus vite possible.",
             ],
           },
         ],
@@ -678,7 +678,7 @@ const RAIDS = [
             title: 'Phase 3 — Raid',
             role: ['melee', 'ranged', 'heal'],
             items: [
-              "Course pure au DPS. Héroïsme / Satyre et tous les cooldowns offensifs immédiatement.",
+              "Course pure au DPS. <strong>Bloodlust</strong> et tous les cooldowns offensifs immédiatement.",
               "Soigneurs : tenez le raid en vie face aux dégâts d'Ombre croissants et surveillez les cibles sous <strong>Spite</strong>.",
             ],
           },
@@ -703,7 +703,8 @@ const RAIDS = [
             items: [
               "<strong>Saber Lash :</strong> enchaînement frontal de 20 m de portée, 30 000 points de dégâts répartis équitablement entre 3 cibles maximum.",
               "<strong>Fatal Attraction :</strong> téléporte 3 joueurs aléatoires sur un même point et les lie par des lasers d'Ombre infligeant des dégâts majeurs tant qu'ils restent proches.",
-              "<strong>Rayons prismatiques :</strong> toutes les 9 s sur 10 cibles au hasard — dégâts, projection en l'air ou brûlure de mana.",
+              "<strong>Sinful Beam</strong>, <strong>Sinister Beam</strong>, <strong>Vile Beam</strong> et <strong>Wicked Beam</strong> : quatre rayons lancés toutes les 9 s sur 10 cibles au hasard — dégâts, projection en l'air ou brûlure de mana.",
+              "<strong>Silencing Shriek :</strong> silence de zone. À ne pas confondre avec les <em>Prismatic Aura</em>, qui sont les auras de résistance de la boss.",
             ],
           },
           {
@@ -718,7 +719,7 @@ const RAIDS = [
             title: 'Soigneurs',
             role: 'heal',
             items: [
-              "Gardez le raid constamment au maximum de ses PV : les rayons prismatiques et Fatal Attraction sont imprévisibles.",
+              "Gardez le raid constamment au maximum de ses PV : les rayons et Fatal Attraction sont imprévisibles.",
             ],
           },
           {
@@ -757,7 +758,7 @@ const RAIDS = [
             role: 'tank',
             items: [
               "<strong>Mage tank :</strong> pull et tank <strong>Zerevor</strong> sur le côté gauche de la salle, à plus de 10 m de tout autre joueur pour éviter les explosions d'arcane. Volez impérativement son <strong>Dampen Magic</strong>.",
-              "<strong>Main tank (Guerrier recommandé) :</strong> tank Gathios sur le côté droit. <strong>Spell Reflect</strong> sur son Judgment. Déplacez Gathios hors de ses propres Consécrations de manière ultra-réactive.",
+              "<strong>Main tank (Guerrier recommandé) :</strong> tank Gathios sur le côté droit. <strong>Spell Reflect</strong> sur son <strong>Judgement of Command</strong>. Déplacez Gathios hors de ses propres Consécrations de manière ultra-réactive.",
               "<strong>Off-tank :</strong> tank Lady Malande à l'écart.",
             ],
           },
@@ -798,7 +799,7 @@ const RAIDS = [
             title: "Phase 2 — vol d'Illidan (65 %)",
             items: [
               "Illidan s'envole et lance ses deux glaives, qui invoquent <strong>deux Élémentaires de feu</strong>.",
-              "Le raid se divise en <strong>3 groupes formant un triangle</strong> au milieu de la pièce pour diviser les boules de feu. Évitez les deux lignes de lasers bleus (<strong>Eye Beam</strong>).",
+              "Le raid se divise en <strong>3 groupes formant un triangle</strong> au milieu de la pièce pour diviser les boules de feu. Évitez les deux lignes de lasers bleus (<strong>Eye Blast</strong>).",
             ],
           },
           {
@@ -820,14 +821,14 @@ const RAIDS = [
             title: 'Phase 4 — forme de démon (toutes les 40-50 s)',
             items: [
               "Le boss se transforme en démon. <strong>Arrêtez tout DPS lors de la transition</strong> pour laisser le <strong>Warlock tank Shadow Resist</strong> prendre la menace principale à distance.",
-              "Des démons de l'Ombre apparaissent et fixent 4 joueurs en les stunnant. Les DPS doivent les détruire à distance avant qu'ils n'atteignent leurs cibles — <span class=\"warn\">mort instantanée</span> sinon.",
+              "Des <strong>Shadow Demons</strong> apparaissent et fixent 4 joueurs en les stunnant. Les DPS doivent les détruire à distance avant qu'ils n'atteignent leurs cibles — <span class=\"warn\">mort instantanée</span> sinon.",
             ],
           },
           {
             title: "Phase 5 — arrivée de Maiev (30 % à 0 %)",
             items: [
               "Illidan subit une rage de zone toutes les 40 s.",
-              "Le tank doit guider Illidan <strong>précisément sur les pièges posés au sol par Maiev</strong> pour dissiper cette rage, tout en évitant d'orienter le boss face au raid.",
+              "Le tank doit guider Illidan <strong>précisément sur les <strong>Cage Trap</strong> posés au sol par Maiev</strong> pour dissiper cette rage, tout en évitant d'orienter le boss face au raid.",
             ],
           },
         ],
