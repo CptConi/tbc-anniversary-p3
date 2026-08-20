@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Not So Bad — Guide Phase 3 : Mont Hyjal &amp; Temple Noir</title>
+<meta name="description" content="Guide de raid Phase 3 TBC Anniversary — Mont Hyjal et Temple Noir. Stratégies par boss et par rôle pour la guilde Not So Bad, Thunderstrike FR.">
+<meta name="theme-color" content="#0b0d0a">
+<meta property="og:title" content="Guide Phase 3 — Hyjal &amp; Temple Noir">
+<meta property="og:description" content="Stratégies par boss et par rôle. Not So Bad — Thunderstrike FR.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#128128;</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Aller au contenu</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <span class="brand-guild">Not So Bad</span>
+        <span class="brand-sub">Thunderstrike FR · PvE</span>
+      </div>
+    </div>
+    <div class="header-tools">
+      <div id="countdown" class="countdown" role="status" aria-live="polite"></div>
+    </div>
+    <h1 class="site-title">Guide <span class="accent">Phase&nbsp;3</span> — Mont Hyjal &amp; Temple Noir</h1>
+  </div>
+</header>
+
+<div class="stickyhead">
+<nav class="tabs-bar" aria-label="Sections principales">
+  <div class="wrap">
+    <div class="tabs" role="tablist" id="tablist">
+      <button class="tab" role="tab" id="tab-intro" data-tab="intro" aria-controls="panel-intro" aria-selected="true">
+        <span class="tab-label">Préparation</span>
+        <span class="tab-meta">Avant J-1</span>
+      </button>
+      <button class="tab" role="tab" id="tab-hyjal" data-tab="hyjal" aria-controls="panel-hyjal" aria-selected="false">
+        <span class="tab-label">Mont Hyjal</span>
+        <span class="tab-meta">5 boss</span>
+      </button>
+      <button class="tab" role="tab" id="tab-bt" data-tab="bt" aria-controls="panel-bt" aria-selected="false">
+        <span class="tab-label">Temple Noir</span>
+        <span class="tab-meta">9 boss</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="toolbar-bar">
+  <div class="wrap toolbar">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="search" placeholder="Rechercher un boss, un sort, une consigne…" autocomplete="off" spellcheck="false" aria-label="Rechercher dans le guide">
+      <button type="button" id="search-clear" class="search-clear" aria-label="Effacer la recherche" hidden>&times;</button>
+    </div>
+
+    <div class="roles" role="group" aria-label="Filtrer par rôle">
+      <button type="button" class="role-btn is-active" data-role="all">Tous</button>
+      <button type="button" class="role-btn" data-role="tank">Tank</button>
+      <button type="button" class="role-btn" data-role="heal">Heal</button>
+      <button type="button" class="role-btn" data-role="melee">Mêlée</button>
+      <button type="button" class="role-btn" data-role="ranged">Distance</button>
+    </div>
+
+    <div class="bulk">
+      <button type="button" id="expand-all" class="ghost-btn" title="Tout déplier (E)">Tout déplier</button>
+      <button type="button" id="collapse-all" class="ghost-btn" title="Tout replier (C)">Tout replier</button>
+    </div>
+  </div>
+  <div class="wrap"><p id="search-status" class="search-status" role="status" aria-live="polite" hidden></p></div>
+</div>
+</div>
+
+<main id="main" class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <section class="panel" id="panel-intro" role="tabpanel" aria-labelledby="tab-intro" data-raid="intro">
+    <div class="panel-head">
+      <h2 class="panel-title">Préparation globale — Phase 3</h2>
+      <p class="panel-tagline">Logistique et optimisation pour l'ensemble du raid</p>
+    </div>
+
+    <div class="release-card" id="release">
+      <h3>Sortie de la Phase 3</h3>
+      <dl class="release-grid">
+        <div><dt>Mondial</dt><dd>jeudi 27 août 2026 — 15h00 PDT</dd></div>
+        <div class="hl"><dt>Heure FR (Thunderstrike)</dt><dd>vendredi 28 août — <strong>00h00</strong> CEST</dd></div>
+        <div><dt>Jour 1</dt><dd>Temple Noir · Mont Hyjal · Netherwing · gemmes épiques</dd></div>
+        <div><dt>Arène saison 3 (EU)</dt><dd>2 septembre, au reset hebdo</dd></div>
+      </dl>
+    </div>
+
+    <div id="prep-blocks"></div>
+
+    <section class="checklist-card" id="checklist">
+      <div class="checklist-head">
+        <h3>Checklist de préparation</h3>
+        <div class="checklist-right">
+          <span id="checklist-count" class="checklist-count"></span>
+          <button type="button" id="checklist-reset" class="ghost-btn small">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+      <ul class="checklist" id="checklist-items"></ul>
+      <p class="checklist-note">Sauvegardé dans ce navigateur uniquement. Chacun coche la sienne.</p>
+    </section>
+
+    <section class="sources-card">
+      <h3>Sources</h3>
+      <p>Stratégies synthétisées depuis les guides vidéo de <a href="https://www.youtube.com/@WoWCurios" target="_blank" rel="noopener">World of Warcraft Curios</a> :</p>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=6uQEOw76utQ" target="_blank" rel="noopener">Battle for Mount Hyjal — Classic TBC</a></li>
+        <li><a href="https://www.youtube.com/watch?v=cvMTW85NQJU" target="_blank" rel="noopener">The ONLY Black Temple Guide You'll Ever Need — Classic TBC</a></li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- ============ HYJAL / BT (générés) ============ -->
+  <section class="panel" id="panel-hyjal" role="tabpanel" aria-labelledby="tab-hyjal" data-raid="hyjal" hidden></section>
+  <section class="panel" id="panel-bt" role="tabpanel" aria-labelledby="tab-bt" data-raid="bt" hidden></section>
+
+  <p id="no-results" class="no-results" hidden>Aucun résultat. <button type="button" class="linklike" id="no-results-clear">Effacer les filtres</button></p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p class="footer-main">
+      Made with <span class="heart" aria-label="love">&hearts;</span> by <strong>Reconi</strong> for <strong>Not So Bad</strong>, FR Thunderstrike PvE.
+      <span class="fth">For the Horde</span>
+    </p>
+    <a class="gh" href="https://github.com/CptConi" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      github.com/CptConi
+    </a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
