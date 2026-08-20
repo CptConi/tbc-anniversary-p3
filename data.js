@@ -141,6 +141,16 @@ const RAIDS = [
             ],
           },
           {
+            title: "Contrer l'Icebolt",
+            items: [
+              "L'Icebolt est un vrai <strong>stun de 4 s</strong>, et il cible n'importe qui — soigneurs compris.",
+              "<strong>Médaillon JcJ</strong> : la réponse principale. C'est le seul des trois à porter le drapeau « utilisable en étant étourdi », donc le seul qu'on peut déclencher <em>pendant</em> le stun. Paladins : Bouclier divin. Mages : Transfert.",
+              "<strong>Free Action Potion</strong> : immunise aux stuns pendant <strong>30 s</strong>, recharge 2 min. <span class=\"warn\">Préventive uniquement</span> — son propre texte précise qu'elle ne retire pas un effet déjà en place. À boire <em>avant</em>. Même recharge que le médaillon, donc elle couvre une seconde fenêtre.",
+              "<span class=\"warn\">La Living Action Potion ne sert à rien ici.</span> Elle retire bien les stuns, mais son sort n'a pas le drapeau « utilisable en étant étourdi » : impossible de la boire une fois figé. En préventif elle n'offre que 5 s d'immunité pour 2 min de recharge.",
+              "<span class=\"warn\">Rappel :</span> rééquipez votre bijou habituel après le combat.",
+            ],
+          },
+          {
             title: 'Tanks',
             role: 'tank',
             items: [
@@ -160,8 +170,7 @@ const RAIDS = [
             role: ['melee', 'ranged'],
             items: [
               "<strong>Dispersion absolue en cercle</strong> tout autour du boss, le plus loin possible, pour minimiser Death &amp; Decay et Nova.",
-              "<strong>Médaillon JcJ immédiat</strong> dès que vous êtes touché par l'Icebolt (Bulle pour les Paladins, Transfert pour les Mages) : ça annule le stun et vous survivez.",
-              "<span class=\"warn\">Rappel :</span> rééquipez votre bijou normal après le combat.",
+              "Dès que l'Icebolt vous touche, déclenchez votre parade — voir <em>Contrer l'Icebolt</em> plus haut.",
             ],
           },
         ],
