@@ -594,6 +594,96 @@ const WOWHEAD = {
   "id": 40761,
   "kind": "spell",
   "name": "Cage Trap"
+ },
+ "Medallion of Karabor": {
+  "icon": "inv_jewelry_amulet_04",
+  "id": 32649,
+  "kind": "item",
+  "name": "Medallion of Karabor"
+ },
+ "Night's End": {
+  "icon": "inv_misc_cape_20",
+  "id": 32420,
+  "kind": "item",
+  "name": "Night's End"
+ },
+ "Glyph of Shadow Warding": {
+  "icon": "spell_shadow_sealofkings",
+  "id": 29199,
+  "kind": "item",
+  "name": "Glyph of Shadow Warding"
+ },
+ "Shadow Armor Kit": {
+  "icon": "spell_shadow_antishadow",
+  "id": 29483,
+  "kind": "item",
+  "name": "Shadow Armor Kit"
+ },
+ "Shadesteel Bracers": {
+  "icon": "inv_bracer_13",
+  "id": 32403,
+  "kind": "item",
+  "name": "Shadesteel Bracers"
+ },
+ "Shadesteel Girdle": {
+  "icon": "inv_belt_30",
+  "id": 32401,
+  "kind": "item",
+  "name": "Shadesteel Girdle"
+ },
+ "Shadesteel Greaves": {
+  "icon": "inv_pants_plate_21",
+  "id": 32404,
+  "kind": "item",
+  "name": "Shadesteel Greaves"
+ },
+ "Shadesteel Sabots": {
+  "icon": "inv_boots_chain_08",
+  "id": 32402,
+  "kind": "item",
+  "name": "Shadesteel Sabots"
+ },
+ "Prismatic Sphere": {
+  "icon": "inv_enchant_prismaticsphere",
+  "id": 22460,
+  "kind": "item",
+  "name": "Prismatic Sphere"
+ },
+ "Major Shadow Protection Potion": {
+  "icon": "inv_potion_123",
+  "id": 22846,
+  "kind": "item",
+  "name": "Major Shadow Protection Potion"
+ },
+ "Heart of Darkness": {
+  "icon": "spell_shadow_demonictactics",
+  "id": 32428,
+  "kind": "item",
+  "name": "Heart of Darkness"
+ },
+ "Juno's Shadow": {
+  "icon": "inv_misc_cape_20",
+  "id": 17061,
+  "kind": "item",
+  "name": "Juno's Shadow"
+ },
+ "Prayer of Shadow Protection": {
+  "icon": "spell_holy_prayerofshadowprotection",
+  "id": 39374,
+  "kind": "spell",
+  "name": "Prayer of Shadow Protection"
+ },
+ "Shadow Resistance Aura": {
+  "icon": "spell_shadow_sealofkings",
+  "id": 27151,
+  "kind": "spell",
+  "name": "Shadow Resistance Aura"
+ },
+ "Enchant Cloak - Greater Shadow Resistance": {
+  "icon": "spell_holy_greaterheal",
+  "id": 34006,
+  "kind": "spell",
+  "name": "Enchant Cloak - Greater Shadow Resistance"
  }
 };
 
