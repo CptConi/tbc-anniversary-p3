@@ -704,6 +704,98 @@ mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; paddi
 :root[data-theme="horde"] .boss[open] { background: var(--bg-2); }
 
 /* ===========================================================
+   Shadow-resistance modal
+   =========================================================== */
+
+.modal {
+  width: min(860px, calc(100vw - 32px));
+  max-height: min(86vh, 900px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  color: var(--text);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+  overflow: hidden;
+}
+.modal::backdrop { background: rgba(0, 0, 0, .66); backdrop-filter: blur(3px); }
+.modal:not([open]) { display: none; }
+
+.modal-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 18px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 7%, transparent), transparent), var(--surface);
+}
+.modal-title {
+  margin: 0; font-family: var(--display);
+  font-size: 1.3rem; font-weight: 800;
+  letter-spacing: var(--head-track); text-transform: var(--head-case);
+  color: var(--brand);
+}
+.modal-sub { margin: 4px 0 0; font-size: .84rem; color: var(--text-faint); }
+.modal-close {
+  flex: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--text-dim); font-size: 20px; line-height: 1;
+}
+.modal-close:hover { color: var(--text); border-color: var(--accent); }
+
+.modal-body { padding: 22px 24px 30px; overflow-y: auto; max-height: calc(86vh - 92px); }
+
+.sr-lead p { margin: 0 0 12px; }
+.sr-lead p:last-child { margin-bottom: 0; }
+
+.sr-block { margin-top: 30px; }
+.sr-block h3 {
+  margin: 0 0 10px; font-size: .82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .09em; color: var(--brand);
+}
+.sr-note { margin: 0 0 12px; font-size: .82rem; color: var(--text-faint); }
+.sr-block ul { margin: 0; padding-left: 1.3em; }
+.sr-block li { margin-bottom: 9px; }
+.sr-block li:last-child { margin-bottom: 0; }
+.sr-block li::marker { color: color-mix(in srgb, var(--brand) 65%, transparent); }
+
+.sr-n {
+  font-family: var(--mono); font-weight: 700; font-size: .92em;
+  color: var(--brand); white-space: nowrap;
+}
+
+.sr-path { border-left: 3px solid color-mix(in srgb, var(--brand) 55%, transparent); padding-left: 16px; }
+.sr-total {
+  margin: 0 0 12px; font-family: var(--mono); font-size: .84rem;
+  color: var(--text); background: color-mix(in srgb, var(--brand) 11%, transparent);
+  border-radius: 999px; padding: 5px 13px; display: inline-block;
+}
+
+/* Wide table stays inside its own scroller so the page never scrolls sideways */
+.sr-tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.sr-table { width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 560px; }
+.sr-table th, .sr-table td { padding: 10px 13px; text-align: left; vertical-align: top; }
+.sr-table thead th {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--text-faint); background: var(--surface); border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.sr-table tbody tr + tr td { border-top: 1px solid var(--line-soft); }
+.sr-table tbody tr:hover { background: var(--surface); }
+.sr-sr { font-family: var(--mono); font-weight: 700; color: var(--brand); white-space: nowrap; }
+.sr-tag {
+  font-size: .62rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 4px; vertical-align: 2px;
+  color: var(--tank); background: color-mix(in srgb, var(--tank) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tank) 34%, transparent);
+}
+.sr-table tr.is-plate td:first-child { color: var(--text-dim); }
+
+@media (max-width: 620px) {
+  .modal { width: 100vw; max-width: 100vw; max-height: 100vh; border-radius: 0; border: 0; }
+  .modal-body { max-height: calc(100vh - 96px); padding: 18px 18px 26px; }
+}
+@media print { .modal { display: none !important; } }
+
+/* ===========================================================
    Print
    =========================================================== */
 

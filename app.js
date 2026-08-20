@@ -631,6 +631,15 @@
       });
     });
 
+    // Shadow-resistance modal
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.js-sr-open')) { e.preventDefault(); openShadowResist(); return; }
+      var dlg = document.getElementById('sr-modal');
+      if (!dlg || !dlg.open) return;
+      // close on the X, or on a click that lands on the backdrop rather than the panel
+      if (e.target.closest('.modal-close') || e.target === dlg) dlg.close();
+    });
+
     // Theme switcher
     $$('.theme-btn').forEach(function (btn) {
       btn.addEventListener('click', function () { setTheme(btn.dataset.themeSet); });
@@ -815,6 +824,83 @@
       if (!entry) return;
       node.parentNode.insertBefore(whLink(entry), node.nextSibling);
     });
+    whRefreshTooltips();
+  }
+
+/* ---------- shadow-resistance modal ---------- */
+
+  function srList(items) {
+    var ul = el('ul');
+    items.forEach(function (i) { ul.appendChild(el('li', null, i)); });
+    return ul;
+  }
+
+  function srSection(title, items, note) {
+    var box = el('section', { class: 'sr-block' });
+    box.appendChild(el('h3', null, title));
+    if (note) box.appendChild(el('p', { class: 'sr-note' }, note));
+    box.appendChild(srList(items));
+    return box;
+  }
+
+  function renderShadowResist() {
+    if (typeof SHADOW_RESIST === 'undefined') return;
+    var d = SHADOW_RESIST;
+    var body = $('#sr-modal .modal-body');
+    if (body.dataset.rendered) return;
+
+    $('#sr-modal-title').textContent = d.title;
+    $('#sr-modal .modal-sub').textContent = d.subtitle;
+
+    var lead = el('div', { class: 'sr-lead' });
+    d.intro.forEach(function (p) { lead.appendChild(el('p', null, p)); });
+    body.appendChild(lead);
+
+    body.appendChild(srSection(d.buff.title, d.buff.items));
+    body.appendChild(srSection(d.target.title, d.target.items));
+
+    // sources table
+    var box = el('section', { class: 'sr-block' });
+    box.appendChild(el('h3', null, d.sources.title));
+    box.appendChild(el('p', { class: 'sr-note' }, d.sources.note));
+    var scroll = el('div', { class: 'sr-tablewrap' });
+    var table = el('table', { class: 'sr-table' });
+    table.innerHTML = '<thead><tr><th>Source</th><th>Emplacement</th><th>RO</th><th>Comment l\'obtenir</th></tr></thead>';
+    var tb = el('tbody');
+    d.sources.rows.forEach(function (r) {
+      var tr = el('tr', r.plate ? { class: 'is-plate' } : null);
+      tr.appendChild(el('td', null, '<strong>' + r.item + '</strong>' +
+        (r.plate ? ' <span class="sr-tag">plaque</span>' : '')));
+      tr.appendChild(el('td', null, r.slot));
+      tr.appendChild(el('td', { class: 'sr-sr' }, r.sr));
+      tr.appendChild(el('td', null, r.how));
+      tb.appendChild(tr);
+    });
+    table.appendChild(tb);
+    scroll.appendChild(table);
+    box.appendChild(scroll);
+    body.appendChild(box);
+
+    // the two routes
+    d.paths.forEach(function (p) {
+      var sec = el('section', { class: 'sr-block sr-path' });
+      sec.appendChild(el('h3', null, p.title));
+      sec.appendChild(el('p', { class: 'sr-total' }, p.total));
+      sec.appendChild(srList(p.steps));
+      body.appendChild(sec);
+    });
+
+    body.appendChild(srSection(d.consumable.title, d.consumable.items));
+    body.appendChild(srSection(d.caveats.title, d.caveats.items));
+
+    decorateWowhead(body, 'bt');
+    body.dataset.rendered = '1';
+  }
+
+  function openShadowResist() {
+    renderShadowResist();
+    var dlg = document.getElementById('sr-modal');
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
     whRefreshTooltips();
   }
 
