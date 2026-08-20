@@ -17,6 +17,8 @@ Plain HTML + CSS + JS. No build step, no dependencies, no framework.
 | `app.js` | Rendering, themes, tabs, search, role filter, localStorage, deep links |
 | `styles.css` | Three themes, all driven by the same token set |
 | `vercel.json` | Static headers + clean URLs |
+| `og-image.png` | 1200×630 link preview card (generated, see below) |
+| `tools/og-image.html` | Source for that card |
 
 ## Run locally
 
@@ -108,6 +110,32 @@ To add one, append an entry:
 `kind` is `spell`, `npc`, `item`, or `search` (which takes `q` instead of `id`).
 `icon` is the Wowhead icon slug; omit it and a plain marker is drawn instead
 (NPCs have no icon on Wowhead).
+
+## Link preview
+
+Pasting the URL in Discord, Slack or Signal renders a card: the two-line
+`og:description` (the newline inside the attribute is deliberate — those clients
+keep it), the Horde-themed `og-image.png`, and a left accent bar taken from
+`theme-color`, which tracks the Horde background.
+
+`og:image` is root-relative (`/og-image.png`) because the deployment domain is not
+baked into the repo; those clients resolve it against the page URL. If a stricter
+crawler ever refuses it, replace it with the absolute `https://…` URL.
+
+To regenerate the card after editing `tools/og-image.html`:
+
+```sh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+  --window-size=1200,630 --virtual-time-budget=8000 \
+  --screenshot=og-image.png "file://$PWD/tools/og-image.html"
+```
+
+Keep it full-colour: quantising to a 256-colour palette drops it to ~42 KB but
+bands the gold glow visibly.
+
+Note that Discord caches previews for a long time — an old embed can linger after
+a deploy.
 
 ### Keyboard shortcuts
 
