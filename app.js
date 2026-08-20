@@ -726,7 +726,7 @@
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
       meta.setAttribute('content', {
-        light: '#f5f7f3', horde: '#12100c', alliance: '#0a0d15', dark: '#0b0d0a',
+        light: '#f5f7f3', horde: '#1d1a13', alliance: '#0a0d15', dark: '#0b0d0a',
       }[name]);
     }
     if (persist !== false) save('theme', name);
