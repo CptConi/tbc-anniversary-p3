@@ -1,0 +1,713 @@
+/* ===========================================================
+   Not So Bad — P3 raid guide
+   Vanilla, no build step. Renders from data.js.
+   Persists: open sections, active tab, role filter, checklist.
+   =========================================================== */
+(function () {
+  'use strict';
+
+  var LS = 'nsbp3.';
+  var TABS = ['intro', 'hyjal', 'bt'];
+
+  /* ---------- storage helpers (never throw in private mode) ---------- */
+
+  function load(key, fallback) {
+    try {
+      var raw = localStorage.getItem(LS + key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (e) { return fallback; }
+  }
+  function save(key, value) {
+    try { localStorage.setItem(LS + key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  var openState = load('open', {});
+  var checkState = load('check', {});
+  var activeRoles = load('roles', []);
+
+  /* ---------- accent-insensitive folding (length-preserving) ---------- */
+
+  function foldChar(c) {
+    var d = c.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return d.length === 1 ? d.toLowerCase() : c.toLowerCase();
+  }
+  function fold(s) {
+    var out = '';
+    for (var i = 0; i < s.length; i++) out += foldChar(s[i]);
+    return out;
+  }
+
+  /* ---------- tiny DOM helper ---------- */
+
+  function el(tag, attrs, html) {
+    var n = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (attrs[k] === null || attrs[k] === undefined || attrs[k] === false) continue;
+      if (k === 'class') n.className = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    }
+    if (html !== undefined) n.innerHTML = html;
+    return n;
+  }
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  var ICON_LINK = '<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19"/></svg>';
+  var ICON_CHECK = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
+  var ICON_CHEV = '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+  var ICON_EXPAND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"/></svg>';
+  var ICON_SHRINK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h6V4M20 14h-6v6M10 10L3 3M14 14l7 7"/></svg>';
+
+  /* ---------- rendering ---------- */
+
+  function renderItems(items) {
+    var ul = el('ul');
+    items.forEach(function (item) {
+      var li = el('li');
+      if (typeof item === 'string') {
+        li.innerHTML = item;
+      } else {
+        li.innerHTML = item.t;
+        if (item.sub && item.sub.length) {
+          var sub = el('ul');
+          item.sub.forEach(function (s) { sub.appendChild(el('li', null, s)); });
+          li.appendChild(sub);
+        }
+      }
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function roleList(role) {
+    if (!role) return [];
+    return Array.isArray(role) ? role : [role];
+  }
+
+  function renderBlock(block) {
+    var roles = roleList(block.role);
+    var node = el('div', {
+      class: 'block' + (roles.length ? '' : ' is-generic'),
+      'data-roles': roles.join(' '),
+    });
+    var head = el('div', { class: 'block-head' });
+    head.appendChild(el('h4', { class: 'block-title' }, block.title));
+    roles.forEach(function (r) {
+      var meta = ROLES.filter(function (x) { return x.id === r; })[0];
+      if (meta) head.appendChild(el('span', { class: 'badge', 'data-role': r }, meta.short));
+    });
+    node.appendChild(head);
+    node.appendChild(renderItems(block.items));
+    return node;
+  }
+
+  function watchUrl(vid, t) {
+    return 'https://www.youtube.com/watch?v=' + vid + (t ? '&t=' + t + 's' : '');
+  }
+
+  // YouTube refuses to configure the player (error 153) when the embedding page
+  // has no valid origin — which is exactly the case for file:// pages.
+  function embedUrl(vid, t) {
+    var url = 'https://www.youtube-nocookie.com/embed/' + vid +
+      '?start=' + t + '&autoplay=1&rel=0&modestbranding=1';
+    if (location.origin && location.origin !== 'null') {
+      url += '&origin=' + encodeURIComponent(location.origin);
+    }
+    return url;
+  }
+
+  function renderVideo(video, title) {
+    if (!video) return null;
+    var mm = Math.floor(video.t / 60), ss = video.t % 60;
+    var stamp = mm + ':' + (ss < 10 ? '0' : '') + ss;
+    var wrap = el('div', { class: 'video' });
+    var btn = el('button', {
+      type: 'button',
+      class: 'yt-facade js-yt',
+      'data-vid': video.vid,
+      'data-t': video.t,
+      'aria-label': 'Lire la vidéo — ' + title + ' à ' + stamp,
+    });
+    btn.innerHTML =
+      '<img loading="lazy" decoding="async" alt="" src="https://i.ytimg.com/vi/' + video.vid + '/hqdefault.jpg">' +
+      '<span class="yt-play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></span>' +
+      '<span class="yt-cap"><span>' + title + ' — WoW Curios</span><span class="t">' + stamp + '</span></span>';
+    wrap.appendChild(btn);
+
+    var actions = el('div', { class: 'yt-actions' });
+    actions.appendChild(el('button', {
+      type: 'button',
+      class: 'yt-size js-yt-size',
+      'aria-expanded': 'false',
+    }, ICON_EXPAND + '<span class="js-yt-size-label">Afficher plus grand</span>'));
+    actions.appendChild(el('a', {
+      class: 'yt-out',
+      href: watchUrl(video.vid, video.t),
+      target: '_blank',
+      rel: 'noopener',
+    }, 'Ouvrir sur YouTube \u2197'));
+    wrap.appendChild(actions);
+    return wrap;
+  }
+
+  function renderSection(section) {
+    var d = el('details', { class: 'boss', id: section.id });
+
+    var summary = el('summary');
+    var numLabel = section.kind === 'trash' ? 'TRASH' : String(section.num);
+    summary.appendChild(el('span', {
+      class: 'boss-num' + (section.kind === 'trash' ? ' trash' : ''),
+      'aria-hidden': 'true',
+    }, numLabel));
+
+    var heads = el('span', { class: 'boss-heads', 'data-hl': '' });
+    heads.appendChild(el('span', { class: 'boss-name' }, section.name));
+    heads.appendChild(el('span', { class: 'boss-tag' }, section.tagline));
+    summary.appendChild(heads);
+
+    var tools = el('span', { class: 'boss-tools' });
+    tools.appendChild(el('button', {
+      type: 'button',
+      class: 'icon-btn js-copy',
+      'data-id': section.id,
+      title: 'Copier le lien direct',
+      'aria-label': 'Copier le lien direct vers ' + section.name,
+    }, ICON_LINK));
+    summary.appendChild(tools);
+    summary.appendChild(el('span', { class: 'chev', 'aria-hidden': 'true' }, ICON_CHEV));
+    d.appendChild(summary);
+
+    var body = el('div', { class: 'boss-body' });
+    var vid = renderVideo(section.video, section.name);
+    if (vid) body.appendChild(vid);
+    var blocks = el('div', { class: 'boss-blocks', 'data-hl': '' });
+    section.blocks.forEach(function (b) { blocks.appendChild(renderBlock(b)); });
+    body.appendChild(blocks);
+    d.appendChild(body);
+
+    return d;
+  }
+
+  function renderRaid(raid) {
+    var panel = document.getElementById('panel-' + raid.id);
+    var head = el('div', { class: 'panel-head' });
+    head.appendChild(el('h2', { class: 'panel-title' }, raid.name));
+    head.appendChild(el('p', { class: 'panel-tagline' }, raid.tagline));
+    var link = el('a', {
+      class: 'panel-video-link',
+      href: raid.videoUrl,
+      target: '_blank',
+      rel: 'noopener',
+    }, '<span class="yt-dot"></span>' + raid.videoLabel);
+    head.appendChild(link);
+    panel.appendChild(head);
+
+    var jump = el('nav', { class: 'jumpbar', 'aria-label': 'Aller à un boss' });
+    raid.sections.forEach(function (s) {
+      var label = s.kind === 'trash'
+        ? '<span class="n">~</span>' + s.name
+        : '<span class="n">' + s.num + '</span>' + s.name;
+      jump.appendChild(el('a', { class: 'jump', href: '#' + s.id }, label));
+    });
+    panel.appendChild(jump);
+
+    raid.sections.forEach(function (s) { panel.appendChild(renderSection(s)); });
+  }
+
+  function renderIntro() {
+    var host = document.getElementById('prep-blocks');
+    INTRO_BLOCKS.forEach(function (b) {
+      var card = el('section', { class: 'prep-block', 'data-hl': '' });
+      card.appendChild(el('h3', null, b.title));
+      card.appendChild(renderItems(b.items));
+      host.appendChild(card);
+    });
+
+    var list = document.getElementById('checklist-items');
+    PREP_CHECKLIST.forEach(function (item) {
+      var li = el('li');
+      var label = el('label');
+      var input = el('input', { type: 'checkbox', 'data-ck': item.id });
+      input.checked = !!checkState[item.id];
+      var text = el('span', { class: 'ck-text' });
+      text.appendChild(el('span', null, item.label));
+      if (item.note) text.appendChild(el('span', { class: 'ck-note' }, item.note));
+      label.appendChild(input);
+      label.appendChild(text);
+      li.appendChild(label);
+      list.appendChild(li);
+    });
+    updateChecklistProgress();
+  }
+
+  /* ---------- checklist ---------- */
+
+  function updateChecklistProgress() {
+    var boxes = $$('#checklist-items input');
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    $('#checklist-count').textContent = done + ' / ' + boxes.length;
+    $('#progress-fill').style.width = (boxes.length ? (done / boxes.length) * 100 : 0) + '%';
+  }
+
+  /* ---------- tabs ---------- */
+
+  var currentTab = 'intro';
+
+  function setTab(id, opts) {
+    if (TABS.indexOf(id) === -1) id = 'intro';
+    currentTab = id;
+    TABS.forEach(function (t) {
+      var btn = document.getElementById('tab-' + t);
+      var panel = document.getElementById('panel-' + t);
+      var on = t === id;
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      btn.tabIndex = on ? 0 : -1;
+      panel.hidden = !on;
+    });
+    save('tab', id);
+    if (opts && opts.hash) {
+      history.replaceState(null, '', '#' + id);
+    }
+    applyFilters();
+  }
+
+  /* ---------- open state ---------- */
+
+  var suppressSave = false;
+
+  function restoreOpenState() {
+    suppressSave = true;
+    $$('details.boss').forEach(function (d) { d.open = !!openState[d.id]; });
+    suppressSave = false;
+  }
+
+  function setAllOpen(open) {
+    var panel = document.getElementById('panel-' + currentTab);
+    $$('details.boss', panel).forEach(function (d) {
+      if (d.hidden) return;
+      d.open = open;
+      openState[d.id] = open;
+    });
+    save('open', openState);
+  }
+
+  /* ---------- highlight ---------- */
+
+  function clearHighlights() {
+    $$('[data-hl]').forEach(function (host) {
+      if (host.__orig !== undefined && host.__hl) {
+        host.innerHTML = host.__orig;
+        host.__hl = false;
+      }
+    });
+  }
+
+  function highlight(host, needle) {
+    if (host.__orig === undefined) host.__orig = host.innerHTML;
+    else host.innerHTML = host.__orig;
+    host.__hl = true;
+
+    var walker = document.createTreeWalker(host, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (p && (p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE' || p.nodeName === 'MARK')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(function (node) {
+      var text = node.nodeValue;
+      var hay = fold(text);
+      if (hay.indexOf(needle) === -1) return;
+      var frag = document.createDocumentFragment();
+      var from = 0, idx;
+      while ((idx = hay.indexOf(needle, from)) !== -1) {
+        if (idx > from) frag.appendChild(document.createTextNode(text.slice(from, idx)));
+        var mark = document.createElement('mark');
+        mark.textContent = text.slice(idx, idx + needle.length);
+        frag.appendChild(mark);
+        from = idx + needle.length;
+      }
+      if (from < text.length) frag.appendChild(document.createTextNode(text.slice(from)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  /* ---------- filtering (search + roles) ---------- */
+
+  // The divider is drawn as a border-top on each block, so the first *visible*
+  // one must not have it. Recomputed whenever visibility changes.
+  function applyRoleVisibility(scope) {
+    var blocks = $$('.block', scope);
+    var firstShown = true;
+    blocks.forEach(function (b) {
+      var show = blockMatchesRoles(b);
+      b.hidden = !show;
+      b.classList.toggle('is-first-visible', show && firstShown);
+      if (show) firstShown = false;
+    });
+  }
+
+  function blockMatchesRoles(block) {
+    if (!activeRoles.length) return true;
+    var roles = (block.getAttribute('data-roles') || '').split(' ').filter(Boolean);
+    if (!roles.length) return true; // generic context blocks always shown
+    return roles.some(function (r) { return activeRoles.indexOf(r) !== -1; });
+  }
+
+  function applyFilters() {
+    var q = fold($('#search').value.trim());
+    var searching = q.length >= 2;
+    var counts = { intro: 0, hyjal: 0, bt: 0 };
+
+    if (!searching) clearHighlights();
+
+    // Raids
+    ['hyjal', 'bt'].forEach(function (rid) {
+      var panel = document.getElementById('panel-' + rid);
+      $$('details.boss', panel).forEach(function (d) {
+        // role filter on blocks (also re-tags the first visible one)
+        applyRoleVisibility(d);
+
+        var visibleText = $$('.block', d)
+          .filter(function (b) { return !b.hidden; })
+          .map(function (b) { return b.textContent; })
+          .join(' ');
+        var hay = fold($('.boss-heads', d).textContent + ' ' + visibleText);
+        var hit = !searching || hay.indexOf(q) !== -1;
+
+        d.hidden = !hit;
+        if (hit) counts[rid]++;
+
+        if (searching && hit) {
+          highlight($('.boss-heads', d), q);
+          highlight($('.boss-blocks', d), q);
+          // highlight() rebuilt the block subtree, so re-apply visibility
+          applyRoleVisibility(d);
+          suppressSave = true;
+          d.open = true;
+          suppressSave = false;
+        }
+      });
+      // hide jump links pointing at hidden sections
+      $$('.jump', panel).forEach(function (a) {
+        var target = document.getElementById(a.getAttribute('href').slice(1));
+        a.hidden = !!(target && target.hidden);
+      });
+    });
+
+    // Intro cards
+    var introCards = $$('#panel-intro [data-hl], #panel-intro .release-card, #panel-intro .checklist-card, #panel-intro .sources-card');
+    introCards.forEach(function (card) {
+      var hit = !searching || fold(card.textContent).indexOf(q) !== -1;
+      card.hidden = !hit;
+      if (hit) counts.intro++;
+      if (searching && hit && card.hasAttribute('data-hl')) highlight(card, q);
+    });
+
+    if (!searching) restoreOpenState();
+
+    // Tab meta + status
+    var metas = { intro: 'Avant J-1', hyjal: '5 boss', bt: '9 boss' };
+    TABS.forEach(function (t) {
+      var m = $('#tab-' + t + ' .tab-meta');
+      m.textContent = searching ? (counts[t] + ' résultat' + (counts[t] > 1 ? 's' : '')) : metas[t];
+    });
+
+    var status = $('#search-status');
+    var total = counts.intro + counts.hyjal + counts.bt;
+    if (searching) {
+      status.hidden = false;
+      status.textContent = total + ' résultat' + (total > 1 ? 's' : '') +
+        ' — Préparation ' + counts.intro + ' · Mont Hyjal ' + counts.hyjal + ' · Temple Noir ' + counts.bt;
+    } else if (activeRoles.length) {
+      status.hidden = false;
+      var names = activeRoles.map(function (r) {
+        return ROLES.filter(function (x) { return x.id === r; })[0].label;
+      });
+      status.textContent = 'Filtre actif : ' + names.join(' + ') + ' (les blocs communs restent affichés)';
+    } else {
+      status.hidden = true;
+    }
+
+    $('#search-clear').hidden = !$('#search').value;
+    $('#no-results').hidden = !(searching && counts[currentTab] === 0);
+  }
+
+  /* ---------- deep links ---------- */
+
+  function panelIdOf(node) {
+    var p = node.closest('.panel');
+    return p ? p.id.replace('panel-', '') : 'intro';
+  }
+
+  function goToHash(hash, opts) {
+    var id = (hash || '').replace(/^#/, '');
+    if (!id) return false;
+
+    if (TABS.indexOf(id) !== -1) { setTab(id); return true; }
+
+    var target = document.getElementById(id);
+    if (!target) return false;
+
+    setTab(panelIdOf(target));
+
+    if (target.tagName === 'DETAILS') {
+      target.open = true;
+      openState[id] = true;
+      save('open', openState);
+      target.classList.add('is-target');
+      setTimeout(function () { target.classList.remove('is-target'); }, 2200);
+    }
+    if (!opts || opts.scroll !== false) {
+      requestAnimationFrame(function () {
+        target.scrollIntoView({ block: 'start', behavior: opts && opts.instant ? 'auto' : 'smooth' });
+      });
+    }
+    return true;
+  }
+
+  /* ---------- events ---------- */
+
+  function wire() {
+    // Tabs
+    $('#tablist').addEventListener('click', function (e) {
+      var btn = e.target.closest('.tab');
+      if (!btn) return;
+      setTab(btn.dataset.tab, { hash: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    $('#tablist').addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var i = TABS.indexOf(currentTab);
+      var next = TABS[(i + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length];
+      setTab(next, { hash: true });
+      document.getElementById('tab-' + next).focus();
+      e.preventDefault();
+    });
+
+    // Details open/close persistence.
+    // Listen to the user's click on <summary> rather than the `toggle` event:
+    // `toggle` fires asynchronously, so a suppression flag set around a
+    // programmatic `d.open = true` (search auto-expand) is already cleared by
+    // the time the handler runs, and every searched section gets persisted.
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.js-copy')) return;
+      var summary = e.target.closest('.boss > summary');
+      if (!summary) return;
+      var d = summary.parentNode;
+      // The <details> flips after dispatch, and rAF is throttled in background
+      // tabs, so read the resolved state from a macrotask instead.
+      setTimeout(function () {
+        openState[d.id] = d.open;
+        save('open', openState);
+      }, 0);
+    });
+
+    // Copy deep link
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.js-copy');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var url = location.origin + location.pathname + '#' + btn.dataset.id;
+      var done = function () {
+        btn.innerHTML = ICON_CHECK;
+        btn.classList.add('copied');
+        setTimeout(function () { btn.innerHTML = ICON_LINK; btn.classList.remove('copied'); }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { prompt('Lien :', url); });
+      } else {
+        prompt('Lien :', url);
+      }
+    });
+
+    // YouTube lazy facade
+    document.addEventListener('click', function (e) {
+      var facade = e.target.closest('.js-yt');
+      if (!facade) return;
+      e.preventDefault();
+      // file:// has a null origin, so the embedded player errors out (153).
+      // Send the viewer to YouTube instead of showing a broken frame.
+      if (location.protocol === 'file:') {
+        window.open(watchUrl(facade.dataset.vid, facade.dataset.t), '_blank', 'noopener');
+        return;
+      }
+      var iframe = el('iframe', {
+        src: embedUrl(facade.dataset.vid, facade.dataset.t),
+        title: 'Guide vidéo WoW Curios',
+        allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture',
+        allowfullscreen: '',
+        referrerpolicy: 'strict-origin-when-cross-origin',
+      });
+      facade.replaceWith(iframe);
+    });
+
+    // Video size toggle
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.js-yt-size');
+      if (!btn) return;
+      e.preventDefault();
+      var wrap = btn.closest('.video');
+      var big = wrap.getAttribute('data-size') === 'lg';
+      wrap.setAttribute('data-size', big ? 'sm' : 'lg');
+      btn.setAttribute('aria-expanded', big ? 'false' : 'true');
+      btn.innerHTML = (big ? ICON_EXPAND : ICON_SHRINK) +
+        '<span class="js-yt-size-label">' + (big ? 'Afficher plus grand' : 'Réduire') + '</span>';
+    });
+
+    // Jump links / internal anchors
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var hash = a.getAttribute('href');
+      if (hash === '#') return;
+      if (goToHash(hash)) {
+        e.preventDefault();
+        history.replaceState(null, '', hash);
+      }
+    });
+
+    // Search
+    var searchTimer;
+    $('#search').addEventListener('input', function () {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(applyFilters, 120);
+    });
+    $('#search-clear').addEventListener('click', function () {
+      $('#search').value = '';
+      applyFilters();
+      $('#search').focus();
+    });
+    $('#no-results-clear').addEventListener('click', function () {
+      $('#search').value = '';
+      activeRoles = [];
+      save('roles', activeRoles);
+      syncRoleButtons();
+      applyFilters();
+    });
+
+    // Roles
+    $$('.role-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var r = btn.dataset.role;
+        if (r === 'all') {
+          activeRoles = [];
+        } else {
+          var i = activeRoles.indexOf(r);
+          if (i === -1) activeRoles.push(r); else activeRoles.splice(i, 1);
+        }
+        save('roles', activeRoles);
+        syncRoleButtons();
+        applyFilters();
+      });
+    });
+
+    // Bulk expand / collapse
+    $('#expand-all').addEventListener('click', function () { setAllOpen(true); });
+    $('#collapse-all').addEventListener('click', function () { setAllOpen(false); });
+
+    // Checklist
+    $('#checklist-items').addEventListener('change', function (e) {
+      if (e.target.type !== 'checkbox') return;
+      checkState[e.target.dataset.ck] = e.target.checked;
+      save('check', checkState);
+      updateChecklistProgress();
+    });
+    $('#checklist-reset').addEventListener('click', function () {
+      checkState = {};
+      save('check', checkState);
+      $$('#checklist-items input').forEach(function (b) { b.checked = false; });
+      updateChecklistProgress();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function (e) {
+      var t = e.target;
+      var typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+      if (e.key === 'Escape' && typing && t.id === 'search') {
+        t.value = ''; applyFilters(); t.blur(); return;
+      }
+      if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === '/') { e.preventDefault(); $('#search').focus(); }
+      else if (e.key === 'e' || e.key === 'E') { setAllOpen(true); }
+      else if (e.key === 'c' || e.key === 'C') { setAllOpen(false); }
+    });
+
+    window.addEventListener('hashchange', function () { goToHash(location.hash); });
+  }
+
+  function syncRoleButtons() {
+    $$('.role-btn').forEach(function (b) {
+      var r = b.dataset.role;
+      var on = r === 'all' ? activeRoles.length === 0 : activeRoles.indexOf(r) !== -1;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- countdown ---------- */
+
+  function tickCountdown() {
+    var node = document.getElementById('countdown');
+    var target = new Date(P3_RELEASE_UTC).getTime();
+    var diff = target - Date.now();
+
+    if (diff <= 0) {
+      node.classList.add('is-live');
+      var days = Math.floor(-diff / 86400000);
+      node.innerHTML = 'Phase 3 <b>LIVE</b>' + (days > 0 ? ' — J+' + days : '');
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor(diff / 3600000) % 24;
+    var m = Math.floor(diff / 60000) % 60;
+    var s = Math.floor(diff / 1000) % 60;
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    node.innerHTML = 'Phase 3 dans <b>J-' + d + '</b> ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+
+  /* ---------- sticky header height -> --stick (drives scroll-margin) ---------- */
+
+  function trackStickyHeight() {
+    var head = $('.stickyhead');
+    if (!head) return;
+    var apply = function () {
+      document.documentElement.style.setProperty('--stick', head.offsetHeight + 'px');
+    };
+    apply();
+    if (window.ResizeObserver) new ResizeObserver(apply).observe(head);
+    else window.addEventListener('resize', apply);
+  }
+
+  /* ---------- boot ---------- */
+
+  function init() {
+    renderIntro();
+    RAIDS.forEach(renderRaid);
+    trackStickyHeight();
+
+    syncRoleButtons();
+    restoreOpenState();
+    wire();
+
+    var handled = goToHash(location.hash, { instant: true, scroll: true });
+    if (!handled) setTab(load('tab', 'intro'));
+    applyFilters();
+
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
