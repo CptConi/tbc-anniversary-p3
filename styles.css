@@ -100,30 +100,33 @@
 }
 
 /* ---------------- Tokens: Horde (Blizzard WoW palette) ---------------- */
+/* Grounds sit ~1.5x the lightness of the first pass: the original read as a
+   flat near-black rather than the warm brown of the reference site. Text and
+   accents were lifted with them so every pair still clears WCAG AA. */
 
 :root[data-theme="horde"] {
   color-scheme: dark;
 
-  --bg:            #12100c;
-  --bg-2:          #191510;
-  --surface:       #211b13;
-  --surface-2:     #2a2218;
-  --surface-3:     #362b1e;
-  --line:          #4a3a24;
-  --line-soft:     #33281a;
+  --bg:            #1d1a13;
+  --bg-2:          #28221a;
+  --surface:       #332a1d;
+  --surface-2:     #3f3324;
+  --surface-3:     #4e3e2c;
+  --line:          #5f4a2e;
+  --line-soft:     #4a3a26;
 
   --text:          #f0e7d6;
   --text-dim:      #bcab8e;
-  --text-faint:    #8d7d64;
+  --text-faint:    #9f9078;   /* lifted with the ground to hold 4.5:1 */
 
   --brand:         #f8b700;   /* Blizzard gold */
   --brand-dim:     #c48f00;
-  --horde:         #a5321a;   /* rust CTA red */
+  --horde:         #c9451f;   /* rust CTA red */
   --warn:          #ff8a3c;
   --mark-bg:       rgba(248, 183, 0, .32);
 
   --raid-hyjal:    #f8b700;
-  --raid-bt:       #d9542b;
+  --raid-bt:       #dd643f;
 
   --tank:          #6fa8dc;
   --heal:          #8fc96a;
