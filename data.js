@@ -169,7 +169,8 @@ const RAIDS = [
             items: [
               "<strong>Carrion Swarm :</strong> cône de zone toutes les 15 s. 3k à 6k dégâts d'Ombre + DoT réduisant les <strong>soins prodigués de 75 %</strong> pendant 15 s.",
               "<strong>Towering Infernals :</strong> invoqués sur des joueurs aléatoires. Assomment à l'impact, dégâts de feu de zone permanents. Profitent de l'aura vampirique du boss s'ils sont trop proches.",
-              "<strong>Sleep :</strong> endort 2 à 3 joueurs pendant 10 s.",
+              "<strong>Sleep :</strong> endort 2 à 3 joueurs pendant 10 s. <span class=\"warn\">Indissipable</span> — rien ne l'enlève, seuls des dégâts réveillent la cible.",
+              "<strong>Vampiric Aura :</strong> les attaques de mêlée d'Anetheron le soignent de 300 % des dégâts infligés. C'est ce qui rend la réduction de soins utile sur lui.",
             ],
           },
           {
@@ -178,6 +179,24 @@ const RAIDS = [
             items: [
               "Le Main Tank tient Anetheron près de Jaina.",
               "Un <strong>Paladin off-tank</strong> se tient prêt à récupérer chaque Infernal dès son apparition (Exorcisme + Bouclier du vengeur).",
+            ],
+          },
+          {
+            title: 'Réduire les soins du boss',
+            role: ['melee'],
+            items: [
+              "Anetheron se soigne en tapant. Collez-lui une réduction de soins et son autoguérison fond.",
+              "<strong>Mortal Strike</strong> (Guerrier Armes) : <strong>−50 %</strong> de soins reçus, d'un seul coup.",
+              "<strong>Wound Poison</strong> (Voleur) : <strong>−10 % par charge</strong>, cumulable au fil des coups.",
+              "<span class=\"warn\">Les deux ne se cumulent pas entre eux</span> : seule la réduction la plus forte s'applique. Un Guerrier Armes suffit ; le poison prend le relais s'il n'y en a pas.",
+            ],
+          },
+          {
+            title: 'Se réveiller du Sleep',
+            items: [
+              "Le Sleep ne se dissipe pas, mais il <strong>casse aux dégâts</strong>. N'importe quelle source suffit, y compris la vôtre.",
+              "<strong>Sulfuron Slammer</strong> : boisson enflammée qui vous brûle en la buvant. Vendue par <strong>Plugger Spazzring</strong>, le tavernier du Grim Guzzler, dans les Profondeurs de Rochenoire. Empilable par 10, à prévoir avant la soirée.",
+              "Une <strong>Dark Rune</strong> ou une <strong>Demonic Rune</strong> fait le même effet : elle coûte 600 à 1 000 points de vie, donc elle vous réveille aussi.",
             ],
           },
           {
@@ -228,6 +247,8 @@ const RAIDS = [
             items: [
               "Surveillez votre mana en permanence : il ne doit <strong>jamais descendre sous 3 000 à 4 000 points</strong>.",
               "Potions de mana et runes de façon ultra-proactive.",
+              "<strong>Dark Rune</strong> et <strong>Demonic Rune</strong> rendent <strong>900 à 1 500 mana</strong> pour 600 à 1 000 points de vie, avec 2 min de recharge. Elles partagent ce cooldown avec les potions de mana : alternez les deux pour ne jamais être à sec.",
+              "<span class=\"warn\">Surveillez vos PV avant de les utiliser</span> : le coût en vie est réel, et mourir n'aide personne. Prévenez votre soigneur.",
               "<strong>Si votre mana est sur le point de tomber à zéro, courez immédiatement à l'écart</strong> pour exploser seul sans emporter le raid.",
             ],
           },
