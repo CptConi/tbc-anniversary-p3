@@ -13,6 +13,11 @@
 const VID_HYJAL = '6uQEOw76utQ'; // WoW Curios - Mount Hyjal guide
 const VID_BT = 'cvMTW85NQJU'; // WoW Curios - "The ONLY Black Temple Guide You'll Ever Need"
 
+// Community trainer for Teron Gorefiend's ghost phase.
+const TERON_MINIGAME = 'https://teron.faldorn.net/terongame/';
+const TERON_MINIGAME_LINK =
+  '<a href="' + TERON_MINIGAME + '" target="_blank" rel="noopener">mini-jeu d\'entraînement \u2197</a>';
+
 // Phase 3 global unlock: 2026-08-27 15:00 PDT === 2026-08-27 22:00 UTC (2026-08-28 00:00 CEST)
 const P3_RELEASE_UTC = '2026-08-27T22:00:00Z';
 
@@ -25,7 +30,7 @@ const PREP_CHECKLIST = [
   { id: 'food-bloodfin', label: 'Stock de <strong>Broiled Bloodfin</strong>', note: '+8 toutes résistances — journalières cuisine/pêche' },
   { id: 'flask-chromatic', label: 'Stock de <strong>Flask of Chromatic Wonder</strong>', note: '+35 toutes résistances — intendant réputation Karazhan' },
   { id: 'quiver', label: '<strong>Carquois / giberne 24 emplacements</strong> (Chasseurs)', note: '~85-100g + 1 Néant primordial, Travail du cuir' },
-  { id: 'teron-minigame', label: "Entraînement <strong>Ombre de la mort</strong> (Teron Gorefiend)", note: 'Mini-jeu en ligne dédié — rotation 5 / 4 / 2+Tab' },
+  { id: 'teron-minigame', label: "Entraînement <strong>Ombre de la mort</strong> (Teron Gorefiend)", note: 'Rotation 5 / 4 / 2+Tab — ' + TERON_MINIGAME_LINK },
   { id: 'consumables', label: 'Flacons, potions de mana, runes, pierres de soin', note: 'Prévoir large : P3 est une phase à consommables' },
   { id: 'addons', label: 'Addons à jour (DBM/BigWigs, Weakauras)', note: 'Vérifier avant le premier soir' },
 ];
@@ -60,7 +65,7 @@ const INTRO_BLOCKS = [
     title: 'Optimisations de classe & divers',
     items: [
       "<strong>Chasseurs :</strong> nouveaux carquois et gibernes de <strong>24 emplacements</strong> à fabriquer en Travail du cuir (~85-100g + 1 Néant primordial).",
-      "<strong>Teron Gorefiend :</strong> utilisez le mini-jeu en ligne dédié pour maîtriser l'Ombre de la mort sous forme de fantôme. Une soirée entière peut se perdre là-dessus.",
+      "<strong>Teron Gorefiend :</strong> entraînez-vous sur le " + TERON_MINIGAME_LINK + " pour maîtriser l'Ombre de la mort sous forme de fantôme. Une soirée entière peut se perdre là-dessus.",
       "<strong>Ne wipez pas à Hyjal :</strong> un wipe = 8 vagues de trash à refaire + 8 minutes d'attente. Voir la section <a href=\"#hyjal-trash\">Trash & vagues</a>.",
     ],
   },
@@ -530,6 +535,12 @@ const RAIDS = [
             items: [
               "Maintenez Teron Gorefiend au centre.",
               "Pas de mécanique complexe côté tank : pur combat de menace et de robustesse.",
+            ],
+          },
+          {
+            title: 'Entraînement hors raid',
+            items: [
+              "Le contrôle du fantôme ne s'improvise pas : passez par le " + TERON_MINIGAME_LINK + " avant le soir de raid.",
             ],
           },
           {
