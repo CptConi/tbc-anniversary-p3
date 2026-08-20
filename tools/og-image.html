@@ -1,0 +1,103 @@
+<!doctype html>
+<!--
+  Source for /og-image.png (the link preview card).
+  Regenerate after editing:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --hide-scrollbars \
+      --window-size=1200,630 --virtual-time-budget=8000 \
+      --screenshot=og-image.png \
+      "file://$PWD/tools/og-image.html"
+
+  Colours are the Horde theme tokens from styles.css.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+
+  body {
+    display: flex; flex-direction: column;
+    padding: 72px 88px 60px;
+    font-family: Montserrat, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #f0e7d6;
+    background:
+      radial-gradient(900px 520px at 84% -6%, rgba(248,183,0,.16), transparent 62%),
+      radial-gradient(760px 460px at 6% 104%, rgba(201,69,31,.20), transparent 60%),
+      linear-gradient(150deg, #2a2218 0%, #1d1a13 46%, #17140e 100%);
+    position: relative;
+  }
+
+  /* Gold rule down the left edge, echoing the boss cards */
+  body::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px;
+    background: linear-gradient(180deg, #f8b700, #c9451f);
+  }
+
+  .kicker {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 21px; font-weight: 700; letter-spacing: .22em;
+    text-transform: uppercase; color: #bcab8e;
+  }
+  .kicker .dot { width: 11px; height: 11px; border-radius: 50%; background: #c9451f; }
+
+  h1 {
+    margin-top: 22px;
+    font-size: 88px; font-weight: 800; line-height: 1.03;
+    letter-spacing: -.005em; text-transform: uppercase;
+  }
+  h1 .gold { color: #f8b700; }
+
+  .sub {
+    margin-top: 22px;
+    font-size: 32px; font-weight: 600; color: #d8cbb2; letter-spacing: .005em;
+  }
+
+  .chips { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
+  .chip {
+    font-size: 21px; font-weight: 700; letter-spacing: .04em;
+    padding: 11px 22px; border-radius: 999px;
+    border: 1px solid #5f4a2e; background: rgba(51,42,29,.72); color: #e4d8bf;
+  }
+  .chip.gold { border-color: #f8b700; color: #f8b700; background: rgba(248,183,0,.10); }
+
+  footer {
+    margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding-top: 28px; border-top: 1px solid #4a3a26;
+  }
+  .guild { font-size: 25px; font-weight: 700; letter-spacing: .02em; }
+  .guild span { color: #8d7d64; font-weight: 600; }
+  .fth {
+    font-size: 19px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase;
+    color: #e2643c; border: 1px solid rgba(226,100,60,.55);
+    border-radius: 999px; padding: 9px 20px; background: rgba(201,69,31,.14);
+  }
+</style>
+</head>
+<body>
+  <div class="kicker"><span class="dot"></span>TBC Anniversary · Phase 3</div>
+
+  <h1><span class="gold">Mont Hyjal</span><br>&amp; Temple Noir</h1>
+
+  <p class="sub">Stratégies par boss, filtrées par rôle</p>
+
+  <div class="chips">
+    <div class="chip gold">14 boss</div>
+    <div class="chip">Tooltips Wowhead FR</div>
+    <div class="chip">Guides vidéo</div>
+    <div class="chip">Checklist</div>
+  </div>
+
+  <footer>
+    <div class="guild">Not So Bad <span>· Thunderstrike FR · PvE</span></div>
+    <div class="fth">For the Horde</div>
+  </footer>
+</body>
+</html>
