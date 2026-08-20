@@ -524,10 +524,10 @@ main { padding-block: 40px 80px; }
    icon for (NPCs). .wh-img carries the entity's real game icon. */
 .wh {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 15px; height: 15px; margin-left: 5px;
+  width: 20px; height: 20px; margin-left: 6px;
   border-radius: 50%; flex: none;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 10px; font-weight: 700; font-style: italic;
+  font-size: 13px; font-weight: 700; font-style: italic;
   line-height: 1; text-decoration: none; letter-spacing: 0;
   color: var(--text-faint);
   border: 1px solid var(--line);
@@ -540,11 +540,11 @@ main { padding-block: 40px 80px; }
 .wh:hover, .wh:focus-visible {
   color: var(--bg); background: var(--accent); border-color: var(--accent);
 }
-.boss-name .wh { width: 16px; height: 16px; font-size: 11px; }
+.boss-name .wh { width: 21px; height: 21px; font-size: 14px; }
 
 /* Entities with a Wowhead icon keep it: a rounded square, not the (i) badge. */
-.wh.wh-img { width: 19px; height: 19px; border-radius: 4px; }
-.wh.wh-img img { width: 17px; height: 17px; border-radius: 3px; display: block; }
+.wh.wh-img { width: 25px; height: 25px; border-radius: 5px; }
+.wh.wh-img img { width: 22px; height: 22px; border-radius: 4px; display: block; }
 .wh.wh-img:hover { background: var(--surface-2); border-color: var(--accent); }
 @media print { .wh { display: none; } }
 mark { background: var(--mark-bg); color: var(--text); border-radius: 3px; padding: 0 2px; }
