@@ -690,6 +690,24 @@ const WOWHEAD = {
   "id": 22459,
   "kind": "item",
   "name": "Void Sphere"
+ },
+ "Soulguard Bracers": {
+  "icon": "inv_bracer_09",
+  "id": 32392,
+  "kind": "item",
+  "name": "Soulguard Bracers"
+ },
+ "Redeemed Soul Wristguards": {
+  "icon": "inv_bracer_18",
+  "id": 32395,
+  "kind": "item",
+  "name": "Redeemed Soul Wristguards"
+ },
+ "Bracers of Shackled Souls": {
+  "icon": "inv_bracer_17",
+  "id": 32399,
+  "kind": "item",
+  "name": "Bracers of Shackled Souls"
  }
 };
 

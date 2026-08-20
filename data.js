@@ -875,7 +875,10 @@ const SHADOW_RESIST = {
   sources: {
     title: 'Les sources de résistance',
     note: 'Colonne « RO » = résistance à l\'Ombre apportée.',
-    warn: "TBC ne propose <strong>aucun set de résistance à l'Ombre en tissu, cuir ou mailles</strong>. Les seules pièces d'équipement dédiées sont les Shadesteel, en plaque. Les autres classes passent uniquement par les emplacements universels ci-dessus — cou, dos, tête, renforts d'armure et châsses — ce qui suffit largement pour atteindre le cap.",
+    family: {
+      title: 'Les crafts Cendrelangue existent pour les quatre types d\'armure',
+      text: "Mêmes valeurs, mêmes coûts, un set par type : <strong>Soulguard</strong> en tissu, <strong>Redeemed Soul</strong> en cuir, <strong>Shackled Souls</strong> en mailles, <strong>Shadesteel</strong> en plaque. Chaque set couvre poignets <span class=\"sr-n\">+40</span>, ceinture <span class=\"sr-n\">+54</span>, bottes <span class=\"sr-n\">+54</span> et jambes <span class=\"sr-n\">+72</span>. Tout est <em>BoE</em> : un artisan de la guilde peut vous les fabriquer.",
+    },
     rows: [
       { item: 'Medallion of Karabor', slot: 'Cou', sr: '+40', how: "Quête d'accès au Temple Noir", universal: true },
       { item: "Night's End", slot: 'Dos', sr: '+40', how: 'Couture 375 · Cendrelangue <strong>Honoré</strong> · 1 Cœur des ténèbres · <em>BoE</em>', universal: true },
@@ -884,34 +887,34 @@ const SHADOW_RESIST = {
       { item: 'Shadow Armor Kit', slot: 'Torse, jambes, mains, pieds', sr: '+8 ×4 = +32', how: 'Travail du cuir — remplace l\'enchantement du slot', universal: true },
       { item: 'Void Sphere', slot: 'Châsses', sr: '+4 chacune', how: 'Toutes résistances, va dans une châsse rouge, jaune ou bleue', universal: true },
       { item: 'Prismatic Sphere', slot: 'Châsses', sr: '+3 chacune', how: 'Repli si vous ne trouvez pas de Sphère de vide', universal: true },
-      { item: 'Shadesteel Bracers', slot: 'Poignets', sr: '+40', how: 'Forge 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', plate: true },
-      { item: 'Shadesteel Girdle', slot: 'Taille', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
-      { item: 'Shadesteel Sabots', slot: 'Pieds', sr: '+54', how: 'Forge 375 · <em>BoE</em>', plate: true },
-      { item: 'Shadesteel Greaves', slot: 'Jambes', sr: '+72', how: 'Forge 375 · <em>BoE</em>', plate: true },
+      { item: 'Soulguard Bracers', slot: 'Poignets · tissu', sr: '+40', how: 'Couture 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', craft: true },
+      { item: 'Redeemed Soul Wristguards', slot: 'Poignets · cuir', sr: '+40', how: 'Travail du cuir 375 · Cendrelangue <strong>Honoré</strong> · 1 Cœur des ténèbres · <em>BoE</em>', craft: true },
+      { item: 'Bracers of Shackled Souls', slot: 'Poignets · mailles', sr: '+40', how: 'Travail du cuir 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', craft: true },
+      { item: 'Shadesteel Bracers', slot: 'Poignets · plaque', sr: '+40', how: 'Forge 375 · Cendrelangue <strong>Amical</strong> · 1 Cœur des ténèbres · <em>BoE</em>', craft: true },
     ],
   },
 
   paths: [
     {
-      title: 'Toutes classes — 174 non buffé, sans une seule pièce achetée à l\'HV',
-      total: '175 non buffé · 245 buffé',
+      title: 'La voie courte — un seul Cœur des ténèbres, aucune gemme',
+      total: '187 non buffé · 257 buffé',
       steps: [
         'Medallion of Karabor <span class="sr-n">+40</span> — vous l\'avez déjà, c\'est la quête d\'accès.',
         'Night\'s End <span class="sr-n">+40</span> + son enchantement de cape <span class="sr-n">+15</span> = <span class="sr-n">55</span>.',
         'Glyph of Shadow Warding sur la tête <span class="sr-n">+20</span>.',
         'Shadow Armor Kit sur torse, jambes, mains et pieds <span class="sr-n">+32</span>.',
-        '<strong>Sous-total : 147.</strong> Il manque 27.',
-        '7 Void Sphere dans vos châsses <span class="sr-n">+28</span> → <strong>175</strong>.',
-        'À défaut, 9 Prismatic Sphere <span class="sr-n">+27</span> font aussi l\'affaire.',
+        '<strong>Sous-total : 147.</strong>',
+        'Les brassards Cendrelangue de votre type d\'armure <span class="sr-n">+40</span> → <strong>187</strong>. Cap dépassé, châsses intactes.',
       ],
     },
     {
-      title: 'Porteurs de plaque — beaucoup plus court',
-      total: '187 non buffé · 257 buffé, sans aucune gemme',
+      title: 'Sans les brassards — si le Cœur des ténèbres manque encore',
+      total: '175 non buffé · 245 buffé',
       steps: [
         'Le même socle à <span class="sr-n">147</span>.',
-        'Shadesteel Bracers <span class="sr-n">+40</span> → <strong>187</strong>, cap dépassé sans toucher aux châsses.',
-        'Les autres pièces Shadesteel (ceinturon, sabots, grèves) ne sont pas nécessaires pour Shahraz.',
+        '7 Void Sphere dans vos châsses <span class="sr-n">+28</span> → <strong>175</strong>.',
+        'À défaut, 9 Prismatic Sphere <span class="sr-n">+27</span> font aussi l\'affaire.',
+        'Vous y perdez 7 gemmes de stats : à réserver au premier soir, en attendant votre Cœur.',
       ],
     },
   ],
@@ -930,7 +933,7 @@ const SHADOW_RESIST = {
     items: [
       "Les <strong>Shadow Armor Kit</strong> occupent la place de l'enchantement normal du slot. Quatre kits, c'est quatre enchantements de stats perdus.",
       "Idem pour les gemmes : chaque Sphère de vide remplace une gemme de stats.",
-      "<strong>Night's End</strong> et les pièces <strong>Shadesteel</strong> sont <em>BoE</em> : un artisan de la guilde peut les fabriquer pour vous, ou elles se trouvent à l'hôtel des ventes.",
+      "Toutes les pièces Cendrelangue et <strong>Night's End</strong> sont <em>BoE</em> : un artisan de la guilde peut les fabriquer pour vous, ou elles se trouvent à l'hôtel des ventes.",
       "Le Cœur des ténèbres tombe dans le Temple Noir. Un seul par joueur suffit pour la cape ou les brassards.",
       "Ce set ne sert que sur Shahraz. Prévoyez de le déséquiper juste après.",
     ],

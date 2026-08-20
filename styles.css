@@ -806,7 +806,20 @@ body.is-modal-open { overflow: hidden; }
   color: var(--tank); background: color-mix(in srgb, var(--tank) 15%, transparent);
   border: 1px solid color-mix(in srgb, var(--tank) 34%, transparent);
 }
-.sr-table tr.is-plate td:first-child { color: var(--text-dim); }
+/* The four Ashtongue bracers are one choice, not four — group them visually. */
+.sr-table tr.is-craft td { background: color-mix(in srgb, var(--brand) 4%, transparent); }
+
+.sr-family {
+  margin-top: 14px; padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--brand) 6%, transparent);
+}
+.sr-family h4 {
+  margin: 0 0 7px; font-size: .8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--brand);
+}
+.sr-family p { margin: 0; font-size: .88rem; line-height: 1.65; }
 
 @media (max-width: 620px) {
   .modal { width: 100vw; max-width: 100vw; max-height: 100vh; border-radius: 0; border: 0;

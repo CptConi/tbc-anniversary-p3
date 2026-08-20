@@ -876,14 +876,19 @@
     box.appendChild(el('h3', null, d.sources.title));
     box.appendChild(el('p', { class: 'sr-note' }, d.sources.note));
     if (d.sources.warn) box.appendChild(el('p', { class: 'sr-warn' }, d.sources.warn));
+    if (d.sources.family) {
+      var fam = el('div', { class: 'sr-family' });
+      fam.appendChild(el('h4', null, d.sources.family.title));
+      fam.appendChild(el('p', null, d.sources.family.text));
+      box.appendChild(fam);
+    }
     var scroll = el('div', { class: 'sr-tablewrap' });
     var table = el('table', { class: 'sr-table' });
     table.innerHTML = '<thead><tr><th>Source</th><th>Emplacement</th><th>RO</th><th>Comment l\'obtenir</th></tr></thead>';
     var tb = el('tbody');
     d.sources.rows.forEach(function (r) {
-      var tr = el('tr', r.plate ? { class: 'is-plate' } : null);
-      tr.appendChild(el('td', null, '<strong>' + r.item + '</strong>' +
-        (r.plate ? ' <span class="sr-tag">plaque</span>' : '')));
+      var tr = el('tr', r.craft ? { class: 'is-craft' } : null);
+      tr.appendChild(el('td', null, '<strong>' + r.item + '</strong>'));
       tr.appendChild(el('td', null, r.slot));
       tr.appendChild(el('td', { class: 'sr-sr' }, r.sr));
       tr.appendChild(el('td', null, r.how));
