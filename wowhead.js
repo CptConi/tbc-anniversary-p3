@@ -756,6 +756,12 @@ const WOWHEAD = {
   "id": 20008,
   "kind": "item",
   "name": "Living Action Potion"
+ },
+ "Marteau de la justice": {
+  "icon": "spell_holy_sealofmight",
+  "id": 10308,
+  "kind": "spell",
+  "name": "Hammer of Justice"
  }
 };
 
