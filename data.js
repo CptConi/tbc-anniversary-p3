@@ -41,7 +41,6 @@ const PREP_CHECKLIST = [
   { id: 'flask-chromatic', label: 'Stock de <strong>Flask of Chromatic Wonder</strong>', note: '+35 toutes résistances — intendant réputation Karazhan' },
   { id: 'quiver', label: '<strong>Carquois / giberne 24 emplacements</strong> (Chasseurs)', note: '~85-100g + 1 Néant primordial, Travail du cuir' },
   { id: 'teron-minigame', label: "Entraînement <strong>Ombre de la mort</strong> (Teron Gorefiend)", note: 'Rotation 5 / 4 / 2+Tab — ' + TERON_MINIGAME_LINK },
-  { id: 'consumables', label: 'Flacons, potions de mana, runes, pierres de soin', note: 'Prévoir large : P3 est une phase à consommables' },
   { id: 'addons', label: 'Addons à jour (DBM/BigWigs, Weakauras)', note: 'Vérifier avant le premier soir' },
 ];
 
