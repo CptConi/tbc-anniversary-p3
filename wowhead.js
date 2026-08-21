@@ -613,6 +613,12 @@ const WOWHEAD = {
   "kind": "item",
   "name": "Glyph of Shadow Warding"
  },
+ "Inscription of Endurance": {
+  "icon": "ability_warrior_shieldmastery",
+  "id": 29187,
+  "kind": "item",
+  "name": "Inscription of Endurance"
+ },
  "Shadow Armor Kit": {
   "icon": "spell_shadow_antishadow",
   "id": 29483,

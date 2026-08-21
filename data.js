@@ -926,6 +926,7 @@ const SHADOW_RESIST = {
       { item: "Night's End", slot: 'Dos', sr: '+40', how: 'Couture 375 · Cendrelangue <strong>Honoré</strong> · 1 Cœur des ténèbres · <em>BoE</em>', universal: true },
       { item: 'Enchant Cloak - Greater Shadow Resistance', slot: 'Dos', sr: '+15', how: 'Enchantement, se cumule avec la cape', universal: true },
       { item: 'Glyph of Shadow Warding', slot: 'Tête', sr: '+20', how: 'Ville basse <strong>Honoré</strong>', universal: true },
+      { item: 'Inscription of Endurance', slot: 'Épaules', sr: '+7', how: "L'Œil pourpre <strong>Honoré</strong> — toutes résistances, remplace l'inscription Aldor ou Clairvoyants", universal: true },
       { item: 'Shadow Armor Kit', slot: 'Torse, jambes, mains, pieds', sr: '+8 ×4 = +32', how: 'Travail du cuir — remplace l\'enchantement du slot', universal: true },
       { item: 'Void Sphere', slot: 'Châsses', sr: '+4 chacune', how: 'Toutes résistances, va dans une châsse rouge, jaune ou bleue', universal: true },
       { item: 'Prismatic Sphere', slot: 'Châsses', sr: '+3 chacune', how: 'Repli si vous ne trouvez pas de Sphère de vide', universal: true },
@@ -939,22 +940,23 @@ const SHADOW_RESIST = {
   paths: [
     {
       title: 'Premier soir — Amical suffit, un seul Cœur des ténèbres',
-      total: '175 non buffé · 245 buffé · 1 Cœur des ténèbres',
+      total: '174 non buffé · 244 buffé · 1 Cœur des ténèbres',
       steps: [
         'Medallion of Karabor <span class="sr-n">+40</span> (quête d\'accès), Glyph of Shadow Warding <span class="sr-n">+20</span> sur la tête, quatre Shadow Armor Kit <span class="sr-n">+32</span> sur torse, jambes, mains et pieds.',
         'Enchantement <strong>Résistance à l\'Ombre supérieure</strong> <span class="sr-n">+15</span> sur la cape que vous portez déjà — pas besoin de Night\'s End à ce stade.',
-        'Les <strong>brassards Cendrelangue</strong> <span class="sr-n">+40</span>, accessibles dès <strong>Amical</strong> pour 1 Cœur des ténèbres. <strong>Sous-total : 147.</strong>',
-        '7 <strong>Void Sphere</strong> <span class="sr-n">+28</span> → <strong>175</strong>. À défaut, 9 Prismatic Sphere <span class="sr-n">+27</span> suffisent.',
+        '<strong>Inscription of Endurance</strong> <span class="sr-n">+7</span> sur les épaules. L\'Œil pourpre est la réputation de Karazhan : à ce stade vous êtes largement Honoré.',
+        'Les <strong>brassards Cendrelangue</strong> <span class="sr-n">+40</span>, accessibles dès <strong>Amical</strong> pour 1 Cœur des ténèbres. <strong>Sous-total : 154.</strong>',
+        '5 <strong>Void Sphere</strong> <span class="sr-n">+20</span> → <strong>174</strong>, soit 244 pile une fois buffé. À défaut, 7 Prismatic Sphere <span class="sr-n">+21</span> suffisent.',
         '<span class="warn">Porteurs de cuir :</span> les Redeemed Soul Wristguards demandent <strong>Honoré</strong>. En attendant, prenez les <strong>Soulguard Bracers</strong> en tissu — disponibles dès Amical, et un porteur de cuir peut équiper du tissu.',
       ],
     },
     {
       title: 'Une fois Honoré — deux Cœurs, et vous récupérez vos gemmes',
-      total: '187 non buffé · 257 buffé · 2 Cœurs des ténèbres',
+      total: '194 non buffé · 264 buffé · 2 Cœurs des ténèbres',
       steps: [
         'Remplacez votre cape par <strong>Night\'s End</strong> <span class="sr-n">+40</span> en gardant l\'enchantement : la cape passe de <span class="sr-n">15</span> à <span class="sr-n">55</span>. C\'est le deuxième Cœur des ténèbres.',
-        'Vous montez à 215. Retirez les 7 Void Sphere et remettez vos gemmes de stats → <strong>187</strong>.',
-        'Cap dépassé de 13 points, châsses rendues aux statistiques. C\'est la configuration à viser sur la durée.',
+        'Vous montez à 214. Retirez les 5 Void Sphere et remettez vos gemmes de stats → <strong>194</strong>.',
+        'Cap dépassé de 20 points, châsses rendues aux statistiques. C\'est la configuration à viser sur la durée.',
       ],
     },
   ],
@@ -972,6 +974,7 @@ const SHADOW_RESIST = {
     title: 'Les compromis à connaître',
     items: [
       "Les <strong>Shadow Armor Kit</strong> occupent la place de l'enchantement normal du slot. Quatre kits, c'est quatre enchantements de stats perdus.",
+      "L'<strong>Inscription of Endurance</strong> prend la place de votre inscription d'épaule Aldor ou Clairvoyants. Elle est <em>liée quand ramassée</em> : chacun doit acheter la sienne chez le fournisseur de l'Œil pourpre, à Karazhan.",
       "Idem pour les gemmes : chaque Sphère de vide remplace une gemme de stats.",
       "Toutes les pièces Cendrelangue et <strong>Night's End</strong> sont <em>BoE</em> : un artisan de la guilde peut les fabriquer pour vous, ou elles se trouvent à l'hôtel des ventes.",
       "Chaque craft Cendrelangue consomme <strong>1 Cœur des ténèbres</strong> : la cape et les brassards en demandent donc <strong>deux au total</strong> par joueur.",
