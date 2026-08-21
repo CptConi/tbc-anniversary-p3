@@ -317,6 +317,9 @@
       btn.tabIndex = on ? 0 : -1;
       panel.hidden = !on;
     });
+    var sel = $('#tab-select');
+    sel.value = id;
+    sel.dataset.tab = id;
     save('tab', id);
     if (opts && opts.hash) {
       history.replaceState(null, '', '#' + id);
@@ -473,8 +476,10 @@
     // Tab meta + status
     var metas = { intro: 'Avant J-1', hyjal: '5 boss', bt: '9 boss' };
     TABS.forEach(function (t) {
-      var m = $('#tab-' + t + ' .tab-meta');
-      m.textContent = searching ? (counts[t] + ' résultat' + (counts[t] > 1 ? 's' : '')) : metas[t];
+      var meta = searching ? (counts[t] + ' résultat' + (counts[t] > 1 ? 's' : '')) : metas[t];
+      $('#tab-' + t + ' .tab-meta').textContent = meta;
+      var opt = $('#tab-select option[value="' + t + '"]');
+      opt.textContent = opt.dataset.label + ' · ' + meta;
     });
 
     var status = $('#search-status');
@@ -538,6 +543,10 @@
       var btn = e.target.closest('.tab');
       if (!btn) return;
       setTab(btn.dataset.tab, { hash: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    $('#tab-select').addEventListener('change', function (e) {
+      setTab(e.target.value, { hash: true });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     $('#tablist').addEventListener('keydown', function (e) {

@@ -329,6 +329,37 @@ a:hover { text-decoration-color: currentColor; }
 #tab-hyjal { --tab-accent: var(--raid-hyjal); }
 #tab-bt    { --tab-accent: var(--raid-bt); }
 
+/* Below the tab bar's intrinsic width (476px + gutters), the tabs would scroll
+   horizontally. Swap them for a native select instead. */
+.tab-select-wrap { display: none; }
+
+@media (max-width: 560px) {
+  .tabs { display: none; }
+  .tab-select-wrap { display: block; position: relative; padding-block: 11px; }
+  .tab-select {
+    appearance: none; -webkit-appearance: none;
+    width: 100%; font: inherit; cursor: pointer;
+    font-family: var(--display); font-weight: 700; font-size: 1rem;
+    letter-spacing: var(--head-track); text-transform: var(--head-case);
+    color: var(--tab-accent, var(--brand));
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--tab-accent, var(--brand));
+    border-radius: 10px;
+    padding: 11px 42px 11px 14px;
+  }
+  .tab-select[data-tab="hyjal"] { --tab-accent: var(--raid-hyjal); }
+  .tab-select[data-tab="bt"]    { --tab-accent: var(--raid-bt); }
+  .tab-select:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .tab-select option { background: var(--surface); color: var(--text); font-weight: 600; }
+  .tab-select-chev {
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+    width: 17px; height: 17px; pointer-events: none;
+    fill: none; stroke: var(--text-faint); stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+}
+
 .toolbar-bar {
   background: color-mix(in srgb, var(--bg-2) 94%, transparent);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
