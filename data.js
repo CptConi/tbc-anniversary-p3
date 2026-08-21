@@ -119,8 +119,7 @@ const RAIDS = [
             items: [
               "<strong>Nécromanciens ténébreux :</strong> à contrôler mentalement (Mind Control) par les Prêtres pour appliquer <strong>Unholy Frenzy</strong> sur vos DPS physiques. <span class=\"warn\">Attention :</span> le buff inflige 500 dégâts toutes les 2 s et génère énormément de menace.",
               { t: "<strong>Abominations :</strong> aura de dégâts de Nature en zone qui surcharge vite les soigneurs de mêlée si elles sont trop regroupées.", sub: [
-                "Un <strong>Marteau de la justice</strong> de Paladin les étourdit <strong>6 s</strong> (1 min de recharge) et retarde d'autant leur arrivée sur le pack.",
-                "L'intérêt n'est pas le temps gagné, c'est le décalage : sans ça leur choc au sol tombe sur toutes les mêlées pile au moment où les tanks construisent leur menace sur la vague suivante.",
+                "À leur arrivée, placer un <strong>Marteau de la justice</strong> pour décaler leur entrée en mêlée et éviter un stomp — un stun de zone — au moment du build d'aggro par le tank.",
               ] },
               "<strong>Wyrms de givre :</strong> uniquement au camp de la Horde. Volent et attaquent à distance. À tanker à l'écart du raid par un <strong>DPS à distance (caster tank)</strong> pour que le souffle de givre ne touche pas tout le groupe.",
             ],
